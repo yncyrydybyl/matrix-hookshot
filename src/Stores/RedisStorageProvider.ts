@@ -3,7 +3,7 @@ import { Redis, default as redis } from "ioredis";
 import LogWrapper from "../LogWrapper";
 
 import { IBridgeStorageProvider } from "./StorageProvider";
-import { IFilterInfo } from "matrix-bot-sdk";
+import { IFilterInfo, IStorageProvider } from "matrix-bot-sdk";
 import { ProvisionSession } from "matrix-appservice-bridge";
 
 const BOT_SYNC_TOKEN_KEY = "bot.sync_token.";
@@ -25,15 +25,8 @@ const WIDGET_USER_TOKENS = "widgets.user-tokens.";
 
 const log = new LogWrapper("RedisASProvider");
 
-export class RedisStorageProvider implements IBridgeStorageProvider {
-    private redis: Redis;
-
-    constructor(host: string, port: number, private contextSuffix = '') {
-        this.redis = new redis(port, host);
-        this.redis.expire(COMPLETED_TRANSACTIONS_KEY, COMPLETED_TRANSACTIONS_EXPIRE_AFTER).catch((ex) => {
-            log.warn("Failed to set expiry time on as.completed_transactions", ex);
-        });
-    }
+export class RedisStorageContextualProvider implements IStorageProvider {
+    constructor(protected readonly redis: Redis, protected readonly contextSuffix = "") { }
 
     public setSyncToken(token: string|null){
         if (token === null) {
@@ -62,6 +55,16 @@ export class RedisStorageProvider implements IBridgeStorageProvider {
 
     public readValue(key: string) {
         return this.redis.get(`${BOT_VALUE_KEY}${this.contextSuffix}.${key}`);
+    }
+
+}
+
+export class RedisStorageProvider extends RedisStorageContextualProvider implements IBridgeStorageProvider {
+    constructor(host: string, port: number, contextSuffix = '') {
+        super(new redis(port, host), contextSuffix);
+        this.redis.expire(COMPLETED_TRANSACTIONS_KEY, COMPLETED_TRANSACTIONS_EXPIRE_AFTER).catch((ex) => {
+            log.warn("Failed to set expiry time on as.completed_transactions", ex);
+        });
     }
 
     public async addRegisteredUser(userId: string) {
@@ -154,5 +157,13 @@ export class RedisStorageProvider implements IBridgeStorageProvider {
             await this.redis.del(`${WIDGET_TOKENS}${token}`);
             token = await this.redis.spop(`${WIDGET_USER_TOKENS}${userId}`);
         }
+    }
+
+    storageForUser(userId: string) {
+        const newContext = [userId];
+        if (this.contextSuffix) {
+            newContext.push(this.contextSuffix);
+        }
+        return new RedisStorageContextualProvider(this.redis, newContext.join("."));
     }
 }

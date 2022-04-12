@@ -20,6 +20,7 @@ export class Metrics {
     private readonly matrixApiCallsFailed = new Counter({ name: "matrix_api_calls_failed", help: "The number of Matrix client API calls which failed", labelNames: ["method"], registers: [this.registry]});
 
     public readonly matrixAppserviceEvents = new Counter({ name: "matrix_appservice_events", help: "The number of events sent over the AS API", labelNames: [], registers: [this.registry]});
+    public readonly matrixAppserviceDecryptionFailed = new Counter({ name: "matrix_appservice_decryption_failed", help: "The number of events sent over the AS API that failed to decrypt", registers: [this.registry]});
 
     constructor(private registry: Registry = register) {
         this.expressRouter.get('/metrics', this.metricsFunc.bind(this));
