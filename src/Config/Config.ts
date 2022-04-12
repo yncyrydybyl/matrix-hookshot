@@ -255,11 +255,8 @@ interface BridgeConfigBridge {
     mediaUrl?: string;
     port: number;
     bindAddress: string;
-    pantalaimon?: {
-        url: string;
-        username: string;
-        password: string;
-    }
+    // Removed
+    pantalaimon?: never;
 }
 
 interface BridgeConfigWebhook {
@@ -284,6 +281,9 @@ interface BridgeConfigBot {
     displayname?: string;
     avatar?: string;
 }
+interface BridgeConfigEncryption {
+    storagePath: string;
+}
 
 export interface BridgeConfigProvisioning {
     bindAddress?: string;
@@ -300,6 +300,7 @@ export interface BridgeConfigMetrics {
 export interface BridgeConfigRoot {
     bot?: BridgeConfigBot;
     bridge: BridgeConfigBridge;
+    encryption?: BridgeConfigEncryption;
     figma?: BridgeConfigFigma;
     generic?: BridgeGenericWebhooksConfigYAML;
     github?: BridgeConfigGitHub;
@@ -319,6 +320,8 @@ export interface BridgeConfigRoot {
 export class BridgeConfig {
     @configKey("Basic homeserver configuration")
     public readonly bridge: BridgeConfigBridge;
+    @configKey("Configuration for encryption support in the bridge")
+    public readonly encryption?: BridgeConfigEncryption;
     @configKey("Message queue / cache configuration options for large scale deployments", true)
     public readonly queue: BridgeConfigQueue;
     @configKey("Logging settings. You can have a severity debug,info,warn,error", true)
@@ -380,6 +383,7 @@ export class BridgeConfig {
         this.queue = configData.queue || {
             monolithic: true,
         };
+        this.encryption = configData.encryption;
 
         this.logging = configData.logging || {
             level: "info",
@@ -466,6 +470,14 @@ export class BridgeConfig {
         const hasWidgetListener = !!this.listeners.find(l => l.resources.includes('widgets'));
         if (this.widgets && !hasWidgetListener) {
             throw new ConfigError(`listeners`, "You have enabled the widgets feature, but not included a widgets listener.");
+        }
+
+        if (this.bridge.pantalaimon) {
+            throw new ConfigError("bridge.pantalaimon", "Pantalaimon support has been removed. Encrypted bridges should now use the `encryption` config option");
+        }
+
+        if (this.encryption && !this.queue.monolithic) {
+            throw new ConfigError("queue.monolithic", "Encryption is not supported in worker mode yet.");
         }
     }
 

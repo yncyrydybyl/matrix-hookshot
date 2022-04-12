@@ -16,6 +16,7 @@ async function start() {
     const registrationFile = process.argv[3] || "./registration.yml";
     const config = await BridgeConfig.parseConfig(configFile, process.env);
     const registration = await parseRegistrationFile(registrationFile);
+
     const listener = new ListenerService(config.listeners);
     LogWrapper.configureLogging(config.logging);
     // Bridge SDK doesn't support trace, use "debug" instead.
