@@ -1064,7 +1064,7 @@ ${event.release.body}`;
                     org: splitRepoName[0],
                     repo: splitRepoName[1],
                 },
-                name: r.name,
+                name: r.full_name,
             };
         }) as GitHubRepoConnectionTarget[];
     }
