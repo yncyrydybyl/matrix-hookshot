@@ -146,8 +146,6 @@ export class GitHubIssueConnection
       throw Error("Could not find issue");
     }
 
-    // URL hack so we don't need to fetch the repo itself.
-    const orgRepoName = issue.repository?.full_name;
     let avatarUrl = undefined;
     try {
       const profile = await octokit.users.getByUsername({
@@ -186,8 +184,8 @@ export class GitHubIssueConnection
         {
           type: this.CanonicalEventType,
           content: {
-            org: orgRepoName?.split("/")[0],
-            repo: orgRepoName?.split("/")[1],
+            org: owner,
+            repo: repoName,
             issues: [String(issue.number)],
             comments_processed: -1,
             state: "open",
