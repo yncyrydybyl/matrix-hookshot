@@ -1,6 +1,6 @@
 import { Appservice } from "matrix-bot-sdk";
 import markdown from "markdown-it";
-import emoji from "node-emoji";
+import * as emoji from "node-emoji";
 import { MatrixMessageContent, MatrixEvent } from "./MatrixEvent";
 import { Logger } from "matrix-appservice-bridge";
 import axios from "axios";
