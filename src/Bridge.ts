@@ -10,7 +10,7 @@ import { GetIssueResponse, GetIssueOpts } from "./Gitlab/Types"
 import { GithubInstance } from "./github/GithubInstance";
 import { IBridgeStorageProvider } from "./Stores/StorageProvider";
 import { IConnection, GitHubDiscussionSpace, GitHubDiscussionConnection, GitHubUserSpace, JiraProjectConnection, GitLabRepoConnection,
-    GitHubIssueConnection, GitHubProjectConnection, GitHubRepoConnection, GitLabIssueConnection, FigmaFileConnection, FeedConnection, GenericHookConnection, WebhookResponse } from "./Connections";
+    GitHubIssueConnection, GitHubProjectConnection, GitHubRepoConnection, GitLabIssueConnection, FigmaFileConnection, FeedConnection, GenericHookConnection } from "./Connections";
 import { IGitLabWebhookIssueStateEvent, IGitLabWebhookMREvent, IGitLabWebhookNoteEvent, IGitLabWebhookPushEvent, IGitLabWebhookReleaseEvent, IGitLabWebhookTagPushEvent, IGitLabWebhookWikiPageEvent } from "./Gitlab/WebhookTypes";
 import { JiraIssueEvent, JiraIssueUpdatedEvent, JiraVersionEvent } from "./jira/WebhookTypes";
 import { JiraOAuthResult } from "./jira/Types";
@@ -39,7 +39,6 @@ import { JiraOAuthRequestCloud, JiraOAuthRequestOnPrem, JiraOAuthRequestResult }
 import { GenericWebhookEvent, GenericWebhookEventResult } from "./generic/types";
 import { SetupWidget } from "./Widgets/SetupWidget";
 import { FeedEntry, FeedError, FeedReader, FeedSuccess } from "./feeds/FeedReader";
-import PQueue from "p-queue";
 import * as Sentry from '@sentry/node';
 import { HoundConnection, HoundPayload } from "./Connections/HoundConnection";
 import { HoundReader } from "./hound/reader";
@@ -98,7 +97,7 @@ export class Bridge {
         while (!reached) {
             try {
                 // Make a request to determine if we can reach the homeserver
-                await this.as.botIntent.getJoinedRooms();
+                await this.as.botIntent.underlyingClient.getWhoAmI();
                 reached = true;
             } catch (e) {
                 log.warn("Failed to connect to homeserver, retrying in 5s", e);
@@ -606,7 +605,7 @@ export class Bridge {
 
             if (!connections.length) {
                 await this.queue.push<GenericWebhookEventResult>({
-                    data: {notFound: true},
+                    data: {successful: true, notFound: true},
                     sender: "Bridge",
                     messageId: messageId,
                     eventName: "response.generic-webhook.event",
@@ -621,21 +620,19 @@ export class Bridge {
                         await c.onGenericHook(data.hookData);
                         return;
                     }
-                    let successful: boolean|null = null;
-                    let response: WebhookResponse|undefined;
                     if (this.config.generic?.waitForComplete || c.waitForComplete) {
                         const result = await c.onGenericHook(data.hookData);
-                        successful = result.successful;
-                        response = result.response;
                         await this.queue.push<GenericWebhookEventResult>({
-                            data: {successful, response},
+                            data: result,
                             sender: "Bridge",
                             messageId,
                             eventName: "response.generic-webhook.event",
                         });
                     } else {
                         await this.queue.push<GenericWebhookEventResult>({
-                            data: {},
+                            data: {
+                                successful: null,
+                            },
                             sender: "Bridge",
                             messageId,
                             eventName: "response.generic-webhook.event",
@@ -694,67 +691,70 @@ export class Bridge {
             (c, data) => c.handleNewActivity(data.activity)
         );
 
-        const queue = new PQueue({
-            concurrency: 2,
-        });
-        // Set up already joined rooms
-        await queue.addAll(this.botUsersManager.joinedRooms.map((roomId) => async () => {
-            log.debug("Fetching state for " + roomId);
+        const allRooms = this.botUsersManager.joinedRooms;
 
-            try {
-                await connManager.createConnectionsForRoomId(roomId, false);
-            } catch (ex) {
-                log.error(`Unable to create connection for ${roomId}`, ex);
-                return;
-            }
+        const processRooms = async () => {
+            for (let roomId = allRooms.pop(); roomId !== undefined; roomId = allRooms.pop()) {
+                log.debug("Fetching state for " + roomId);
 
-            const botUser = this.botUsersManager.getBotUserInRoom(roomId);
-            if (!botUser) {
-                log.error(`Failed to find a bot in room '${roomId}' when setting up admin room`);
-                return;
-            }
-
-            // TODO: Refactor this to be a connection
-            try {
-                let accountData = await botUser.intent.underlyingClient.getSafeRoomAccountData<AdminAccountData>(
-                    BRIDGE_ROOM_TYPE, roomId,
-                );
-                if (!accountData) {
-                    accountData = await botUser.intent.underlyingClient.getSafeRoomAccountData<AdminAccountData>(
-                        LEGACY_BRIDGE_ROOM_TYPE, roomId,
+                try {
+                    await connManager.createConnectionsForRoomId(roomId, false);
+                } catch (ex) {
+                    log.error(`Unable to create connection for ${roomId}`, ex);
+                    continue;
+                }
+    
+                const botUser = this.botUsersManager.getBotUserInRoom(roomId);
+                if (!botUser) {
+                    log.error(`Failed to find a bot in room '${roomId}' when setting up admin room`);
+                    continue;
+                }
+    
+                // TODO: Refactor this to be a connection
+                try {
+                    let accountData = await botUser.intent.underlyingClient.getSafeRoomAccountData<AdminAccountData>(
+                        BRIDGE_ROOM_TYPE, roomId,
                     );
                     if (!accountData) {
-                        log.debug(`Room ${roomId} has no connections and is not an admin room`);
-                        return;
-                    } else {
-                        // Upgrade the room
-                        await botUser.intent.underlyingClient.setRoomAccountData(BRIDGE_ROOM_TYPE, roomId, accountData);
+                        accountData = await botUser.intent.underlyingClient.getSafeRoomAccountData<AdminAccountData>(
+                            LEGACY_BRIDGE_ROOM_TYPE, roomId,
+                        );
+                        if (!accountData) {
+                            log.debug(`Room ${roomId} has no connections and is not an admin room`);
+                            continue;
+                        } else {
+                            // Upgrade the room
+                            await botUser.intent.underlyingClient.setRoomAccountData(BRIDGE_ROOM_TYPE, roomId, accountData);
+                        }
                     }
-                }
-
-                let notifContent;
-                try {
-                    notifContent = await botUser.intent.underlyingClient.getRoomStateEvent(
-                        roomId, NotifFilter.StateType, "",
-                    );
-                } catch (ex) {
+    
+                    let notifContent;
                     try {
                         notifContent = await botUser.intent.underlyingClient.getRoomStateEvent(
-                            roomId, NotifFilter.LegacyStateType, "",
+                            roomId, NotifFilter.StateType, "",
                         );
+                    } catch (ex) {
+                        try {
+                            notifContent = await botUser.intent.underlyingClient.getRoomStateEvent(
+                                roomId, NotifFilter.LegacyStateType, "",
+                            );
+                        }
+                        catch (ex) {
+                            // No state yet
+                        }
                     }
-                    catch (ex) {
-                        // No state yet
-                    }
-                }
-                const adminRoom = await this.setUpAdminRoom(botUser.intent, roomId, accountData, notifContent || NotifFilter.getDefaultContent());
-                // Call this on startup to set the state
-                await this.onAdminRoomSettingsChanged(adminRoom, accountData, { admin_user: accountData.admin_user });
-                log.debug(`Room ${roomId} is connected to: ${adminRoom.toString()}`);
-            } catch (ex) {
-                log.error(`Failed to set up admin room ${roomId}:`, ex);
+                    const adminRoom = await this.setUpAdminRoom(botUser.intent, roomId, accountData, notifContent || NotifFilter.getDefaultContent());
+                    // Call this on startup to set the state
+                    await this.onAdminRoomSettingsChanged(adminRoom, accountData, { admin_user: accountData.admin_user });
+                    log.debug(`Room ${roomId} is connected to: ${adminRoom.toString()}`);
+                } catch (ex) {
+                    log.error(`Failed to set up admin room ${roomId}:`, ex);
+                }    
             }
-        }));
+        }
+
+        // Concurrency of two.
+        const roomQueue = await Promise.all([processRooms(), processRooms()])
 
         // Handle spaces
         for (const discussion of connManager.getAllConnectionsOfType(GitHubDiscussionSpace)) {
@@ -787,7 +787,7 @@ export class Bridge {
         if (this.config.metrics?.enabled) {
             this.listener.bindResource('metrics', Metrics.expressRouter);
         }
-        await queue.onIdle();
+        await roomQueue;
         log.info(`All connections loaded`);
 
         // Load feeds after connections, to limit the chances of us double
