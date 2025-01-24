@@ -1,3 +1,46 @@
+# 6.0.2 (2025-01-23)
+
+**Security release**: It is strongly recommended that you upgrade to this release, as it contains security fixes.
+
+### Internal Changes
+
+- Switch to using GitHub Actions native arm runners for Docker builds, which will reduce build times. ([\#1008](https://github.com/matrix-org/matrix-hookshot/issues/1008))
+
+### Security
+
+Fixes for [CVE-2025-23197](https://www.cve.org/CVERecord?id=CVE-2025-23197) / [GHSA-cr4q-jf47-3645](https://github.com/matrix-org/matrix-hookshot/security/advisories/GHSA-cr4q-jf47-3645).
+
+
+# 6.0.1 (2024-11-29)
+
+This release fixes an issue where arm64 Docker images were not being built on release.
+
+# 6.0.0 (2024-11-29)
+
+### Features
+
+- Add support for setting an expiry time on a webhook. See the documentation on [Generic Webhooks](https://matrix-org.github.io/matrix-hookshot/latest/setup/webhooks.html) for more information. ([\#984](https://github.com/matrix-org/matrix-hookshot/issues/984))
+- Support for E2E Encrypted rooms is now considered stable and can be enabled in production. Please see the [documentation](https://matrix-org.github.io/matrix-hookshot/latest/advanced/encryption.html)
+  on the requirements for enabling support. ([\#989](https://github.com/matrix-org/matrix-hookshot/issues/989))
+
+### Bugfixes
+
+- Fix Challenge Hound activities being duplicated if the cache layer (e.g Redis) goes away. ([\#982](https://github.com/matrix-org/matrix-hookshot/issues/982))
+
+### Deprecations and Removals
+
+- Drop support for Node 20 and start supporting Node 22, 23. ([\#990](https://github.com/matrix-org/matrix-hookshot/issues/990))
+
+### Internal Changes
+
+- Reduce bundle size of widget. ([\#985](https://github.com/matrix-org/matrix-hookshot/issues/985))
+- Don't invoke newsfile CI check for dependabot. ([\#987](https://github.com/matrix-org/matrix-hookshot/issues/987))
+- Add devenv development files. ([\#993](https://github.com/matrix-org/matrix-hookshot/issues/993))
+- Push Docker images to ghcr.io, and and build an image on each commit. ([\#994](https://github.com/matrix-org/matrix-hookshot/issues/994))
+- Retry e2e tests in CI due to container creation flakiness. ([\#995](https://github.com/matrix-org/matrix-hookshot/issues/995))
+- Update matrix-bot-sdk to pull in new matrix-rust-sdk. ([\#996](https://github.com/matrix-org/matrix-hookshot/issues/996))
+
+
 5.4.1 (2024-06-21)
 ==================
 

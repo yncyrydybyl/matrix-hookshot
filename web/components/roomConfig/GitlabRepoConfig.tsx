@@ -16,7 +16,7 @@ const ConnectionConfiguration: FunctionComponent<ConnectionConfigurationProps<ne
     const api = useContext(BridgeContext).bridgeApi;
 
     const toggleEnabledHook = useCallback((evt: any) => {
-        const key = (evt.target as HTMLElement).getAttribute('x-event-name');
+        const key = (evt.target as HTMLElement).getAttribute('data-event-name');
         if (key) {
             setEnabledHooks(enabledHooks => (
                 enabledHooks.includes(key) ? enabledHooks.filter(k => k !== key) : [...enabledHooks, key]
@@ -88,7 +88,7 @@ const ConnectionConfiguration: FunctionComponent<ConnectionConfigurationProps<ne
         <InputField visible={!!existingConnection || !!newConnectionState} label="Command Prefix" noPadding={true}>
             <input ref={commandPrefixRef} type="text" value={existingConnection?.config.commandPrefix} placeholder="!gl" />
         </InputField>
-        <InputField visible={!!existingConnection || !!newConnectionState} label="Include comment bodies" noPadding={true} innerChild={true}>
+        <InputField visible={!!existingConnection || !!newConnectionState} label="Include comment bodies" noPadding={true}>
             <input ref={includeBodyRef} disabled={!canEdit} type="checkbox" checked={!!existingConnection?.config.includeCommentBody} />
         </InputField>
         <InputField visible={!!existingConnection || !!newConnectionState} label="Events" noPadding={true}>
@@ -126,7 +126,7 @@ const RoomConfigText = {
 
 const RoomConfigListItemFunc = (c: GitLabRepoResponseItem) => c.config.path;
 
-export const GitlabRepoConfig: BridgeConfig = ({ roomId, showHeader }) => {
+const GitlabRepoConfig: BridgeConfig = ({ roomId, showHeader }) => {
     return <RoomConfig<never, GitLabRepoResponseItem, GitLabRepoConnectionState>
         headerImg={GitLabIcon}
         showHeader={showHeader}
@@ -138,3 +138,5 @@ export const GitlabRepoConfig: BridgeConfig = ({ roomId, showHeader }) => {
         connectionConfigComponent={ConnectionConfiguration}
     />;
 };
+
+export default GitlabRepoConfig;
