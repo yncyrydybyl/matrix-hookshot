@@ -31,9 +31,5 @@ MD024:
 MD026:
   punctuation: ".,;:!"
 
-# Ordered list item prefix - use 1. 2. 3. not 1. 1. 1.
-MD029:
-  style: "ordered"
-
 # Bare URLs - disabled (we use them in reference tables)
 MD034: false
