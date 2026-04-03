@@ -100,5 +100,12 @@ Remove: `!hookshot openproject remove <project-url>`
 
 ## Related
 
-- [Integration Overview](overview.md)
-- [Configuration](../guides/operator/configuration.md)
+**Concepts:** [Event Lifecycle](../understand/event-lifecycle.md) · [Integration Model](../understand/integration-model.md)
+
+**Integrations:** [Overview](overview.md) · [JIRA](jira.md) — Similar project tracking
+
+**Reference:** [Bot Commands: OpenProject](../reference/bot-commands.md#openproject-commands) · [Event Types](../reference/event-types.md)
+
+**Operator:** [Configuration](../guides/operator/configuration.md) · [Hardening](../guides/operator/hardening.md)
+
+**Troubleshooting:** [Authentication](../troubleshooting/authentication.md) · [Connection Issues](../troubleshooting/connection-issues.md)

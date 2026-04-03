@@ -67,5 +67,12 @@ Where `<file-url>` is the Figma file URL, e.g., `https://www.figma.com/files/pro
 
 ## Related
 
-- [Integration Overview](overview.md)
-- [Configuration](../guides/operator/configuration.md)
+**Concepts:** [Event Lifecycle](../understand/event-lifecycle.md) · [Integration Model](../understand/integration-model.md)
+
+**Integrations:** [Overview](overview.md)
+
+**Reference:** [Event Types](../reference/event-types.md) · [Bot Commands](../reference/bot-commands.md#setup-commands-in-room)
+
+**Operator:** [Configuration](../guides/operator/configuration.md) · [Service Bots](../guides/operator/service-bots.md) — Dedicated Figma bot
+
+**Troubleshooting:** [Webhooks Not Arriving](../troubleshooting/webhooks-not-arriving.md) · [Connection Issues](../troubleshooting/connection-issues.md)

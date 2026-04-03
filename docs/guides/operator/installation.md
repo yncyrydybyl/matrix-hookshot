@@ -200,6 +200,12 @@ If you see `Failed to connect to homeserver`, verify:
 
 ## Related
 
-- [What is Hookshot](../../understand/what-is-hookshot.md) — System overview
-- [Trust and Boundaries](../../understand/trust-and-boundaries.md) — Security model
-- [Troubleshooting](../../troubleshooting/index.md) — Common problems
+**Concepts:** [What is Hookshot](../../understand/what-is-hookshot.md) · [Trust and Boundaries](../../understand/trust-and-boundaries.md) — Security model
+
+**Operator:** [Configuration](configuration.md) · [Monitoring](monitoring.md) · [Encryption](encryption.md) · [Hardening](hardening.md) · [Upgrading](upgrading.md)
+
+**Get started:** [Quickstart](../../get-started/quickstart.md) · [Evaluate](../../get-started/evaluate.md)
+
+**Reference:** [Matrix Spec Map](../../reference/matrix-spec-map.md#appservice-registration) — Registration details
+
+**Troubleshooting:** [Common Errors](../../troubleshooting/common-errors.md#startup-errors) · [Connection Issues](../../troubleshooting/connection-issues.md)

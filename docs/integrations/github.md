@@ -335,7 +335,18 @@ Matrix event content:
 
 ## Related
 
-- [Integration Overview](overview.md) — All integrations and capabilities
-- [Event Lifecycle](../understand/event-lifecycle.md) — How events flow through hookshot
-- [Architecture: Connections](../architecture/connections.md) — The Connection abstraction
-- [Matrix Spec: Application Service API](https://spec.matrix.org/latest/application-service-api/)
+**Concepts:** [Event Lifecycle](../understand/event-lifecycle.md) · [Integration Model](../understand/integration-model.md) · [Trust and Boundaries](../understand/trust-and-boundaries.md#github)
+
+**Architecture:** [Connections](../architecture/connections.md) — The Connection abstraction
+
+**Integrations:** [Overview](overview.md) · [GitLab](gitlab.md) · [JIRA](jira.md) — Similar integrations
+
+**Reference:** [Bot Commands](../reference/bot-commands.md#github-repository-commands) · [Event Types](../reference/event-types.md) · [Matrix Spec Map](../reference/matrix-spec-map.md)
+
+**Operator:** [Configuration](../guides/operator/configuration.md) · [Hardening](../guides/operator/hardening.md) — Webhook secret security
+
+**Tutorials:** [First GitHub Notification](../get-started/first-github-notification.md)
+
+**Troubleshooting:** [Webhooks Not Arriving](../troubleshooting/webhooks-not-arriving.md#github) · [Authentication](../troubleshooting/authentication.md#check-2-is-the-service-configured-for-oauth) · [Connection Issues](../troubleshooting/connection-issues.md)
+
+**Matrix Spec:** [Application Service API](https://spec.matrix.org/latest/application-service-api/)

@@ -197,7 +197,14 @@ RSS/Atom feeds don't use webhooks. Instead, hookshot polls feeds on an interval 
 
 ## Related
 
-- [Integration Model](integration-model.md) — The Connection abstraction
-- [Architecture: Message Pipeline](../architecture/message-pipeline.md) — Deep dive into message processing
-- [Architecture: Connections](../architecture/connections.md) — Connection lifecycle and state
-- [Matrix Spec: Application Service API](https://spec.matrix.org/latest/application-service-api/) — How hookshot receives Matrix events
+**Concepts:** [Integration Model](integration-model.md) · [What is Hookshot](what-is-hookshot.md) · [Trust and Boundaries](trust-and-boundaries.md) · [Glossary](glossary.md)
+
+**Architecture:** [Connections](../architecture/connections.md) — Connection lifecycle and state
+
+**Integrations:** [Overview](../integrations/overview.md) · [GitHub](../integrations/github.md) · [Generic Webhooks](../integrations/generic-webhooks.md)
+
+**Reference:** [Bot Commands](../reference/bot-commands.md) · [Event Types](../reference/event-types.md) · [Matrix Spec Map](../reference/matrix-spec-map.md)
+
+**Tutorials:** [First Webhook](../get-started/first-webhook.md) · [First GitHub Notification](../get-started/first-github-notification.md)
+
+**Matrix Spec:** [Application Service API](https://spec.matrix.org/latest/application-service-api/) · [Room State Events](https://spec.matrix.org/latest/client-server-api/#room-state)

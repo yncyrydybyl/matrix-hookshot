@@ -238,9 +238,14 @@ To add a new integration:
 
 ## Related
 
-- [Event Lifecycle](../understand/event-lifecycle.md) — How events flow through connections
-- [Integration Overview](../integrations/overview.md) — All connection types and capabilities
-- [Architecture: State and Storage](state-and-storage.md) — Matrix state as primary store
-- [Architecture: Extensibility](extensibility.md) — Step-by-step guide to adding integrations
-- [Matrix Spec: Room State Events](https://spec.matrix.org/latest/client-server-api/#room-state) — How state events work
-- [Matrix Spec: Application Service API](https://spec.matrix.org/latest/application-service-api/) — How hookshot receives events
+**Concepts:** [Event Lifecycle](../understand/event-lifecycle.md) · [Integration Model](../understand/integration-model.md) · [Trust and Boundaries](../understand/trust-and-boundaries.md) · [Glossary](../understand/glossary.md)
+
+**Integrations:** [Overview](../integrations/overview.md) · [GitHub (6 connection types)](../integrations/github.md) · [Generic Webhooks](../integrations/generic-webhooks.md)
+
+**Reference:** [Event Types](../reference/event-types.md) — All state event types · [Bot Commands](../reference/bot-commands.md) · [Matrix Spec Map](../reference/matrix-spec-map.md)
+
+**Operator:** [Configuration](../guides/operator/configuration.md#static-connections-optional) — Static connections · [Installation](../guides/operator/installation.md#create-the-registration-file) — Registration
+
+**Troubleshooting:** [Connection Issues](../troubleshooting/connection-issues.md) · [Common Errors](../troubleshooting/common-errors.md)
+
+**Matrix Spec:** [Room State Events](https://spec.matrix.org/latest/client-server-api/#room-state) · [Application Service API](https://spec.matrix.org/latest/application-service-api/)

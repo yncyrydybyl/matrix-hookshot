@@ -134,6 +134,12 @@ The `-v` flag removes the data volumes.
 
 ## Related
 
-- [What is Hookshot](../understand/what-is-hookshot.md) — System overview
-- [Event Lifecycle](../understand/event-lifecycle.md) — How events flow
-- [Generic Webhooks](../integrations/generic-webhooks.md) — Full webhook documentation
+**Concepts:** [What is Hookshot](../understand/what-is-hookshot.md) · [Event Lifecycle](../understand/event-lifecycle.md) · [Integration Model](../understand/integration-model.md)
+
+**Next tutorials:** [First Webhook (with transformations)](first-webhook.md) · [First GitHub Notification](first-github-notification.md)
+
+**Integration:** [Generic Webhooks](../integrations/generic-webhooks.md) · [All Integrations](../integrations/overview.md)
+
+**Operator:** [Installation (production)](../guides/operator/installation.md) · [Configuration](../guides/operator/configuration.md)
+
+**Troubleshooting:** [Webhooks Not Arriving](../troubleshooting/webhooks-not-arriving.md) · [Common Errors](../troubleshooting/common-errors.md)

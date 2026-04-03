@@ -154,6 +154,12 @@ Add a webhook in GitLab: Project → Settings → Webhooks:
 
 ## Related
 
-- [Integration Overview](overview.md) — All integrations
-- [Event Lifecycle](../understand/event-lifecycle.md) — How events flow
-- [Reference: Event Types](../reference/event-types.md) — GitLab state events
+**Concepts:** [Event Lifecycle](../understand/event-lifecycle.md) · [Integration Model](../understand/integration-model.md) · [Trust and Boundaries](../understand/trust-and-boundaries.md)
+
+**Integrations:** [Overview](overview.md) · [GitHub](github.md) — Similar integration · [JIRA](jira.md)
+
+**Reference:** [Bot Commands: GitLab](../reference/bot-commands.md#gitlab-repository-commands) · [Event Types](../reference/event-types.md)
+
+**Operator:** [Configuration](../guides/operator/configuration.md) · [Hardening](../guides/operator/hardening.md)
+
+**Troubleshooting:** [Webhooks Not Arriving](../troubleshooting/webhooks-not-arriving.md) · [Authentication](../troubleshooting/authentication.md#check-2-is-the-service-configured-for-oauth) · [Connection Issues](../troubleshooting/connection-issues.md)

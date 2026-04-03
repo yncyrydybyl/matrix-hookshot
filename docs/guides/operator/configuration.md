@@ -299,7 +299,12 @@ This checks for missing required fields and invalid values without starting the 
 
 ## Related
 
-- [Installation](installation.md) — Install hookshot
-- [Trust and Boundaries](../../understand/trust-and-boundaries.md) — Security model
-- [Integration Overview](../../integrations/overview.md) — Service-specific config
-- [Reference: Configuration](../../reference/configuration.md) — Full config schema (auto-generated)
+**Concepts:** [Trust and Boundaries](../../understand/trust-and-boundaries.md) — Security model · [Integration Model](../../understand/integration-model.md)
+
+**Operator:** [Installation](installation.md) · [Monitoring](monitoring.md) · [Encryption](encryption.md) · [Workers](workers-and-scaling.md) · [Service Bots](service-bots.md) · [Hardening](hardening.md) · [Upgrading](upgrading.md)
+
+**Integrations:** [Overview](../../integrations/overview.md) — Service-specific config · [GitHub](../../integrations/github.md#configuration) · [GitLab](../../integrations/gitlab.md#configuration) · [JIRA](../../integrations/jira.md#configuration) · [Generic Webhooks](../../integrations/generic-webhooks.md#setup)
+
+**Reference:** [Event Types](../../reference/event-types.md) · [Bot Commands](../../reference/bot-commands.md) · [Matrix Spec Map](../../reference/matrix-spec-map.md)
+
+**Troubleshooting:** [Common Errors](../../troubleshooting/common-errors.md#startup-errors) · [Authentication](../../troubleshooting/authentication.md)

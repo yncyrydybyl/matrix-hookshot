@@ -157,7 +157,12 @@ The `SetupConnection` handles bot commands for creating connections across all s
 
 ## Related
 
-- [Event Lifecycle](../understand/event-lifecycle.md) — How events flow through the system
-- [Architecture: Connections](../architecture/connections.md) — Connection lifecycle and internals
-- [Reference: Bot Commands](../reference/bot-commands.md) — Complete command reference
-- [Reference: Configuration](../reference/configuration.md) — Full config schema
+**Concepts:** [Event Lifecycle](../understand/event-lifecycle.md) · [Integration Model](../understand/integration-model.md) · [Trust and Boundaries](../understand/trust-and-boundaries.md)
+
+**Architecture:** [Connections](../architecture/connections.md) — Connection lifecycle and internals
+
+**Reference:** [Bot Commands](../reference/bot-commands.md) · [Event Types](../reference/event-types.md) · [Matrix Spec Map](../reference/matrix-spec-map.md)
+
+**Guides:** [Configuration](../guides/operator/configuration.md) — Service-specific config sections
+
+**Get started:** [Quickstart](../get-started/quickstart.md) · [Evaluate](../get-started/evaluate.md)

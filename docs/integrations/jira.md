@@ -165,6 +165,12 @@ Hookshot auto-detects Cloud vs On-Premise by checking for the `x-atlassian-webho
 
 ## Related
 
-- [Integration Overview](overview.md)
-- [Event Lifecycle](../understand/event-lifecycle.md)
-- [Trust and Boundaries](../understand/trust-and-boundaries.md#jira) — JIRA auth model
+**Concepts:** [Event Lifecycle](../understand/event-lifecycle.md) · [Integration Model](../understand/integration-model.md) · [Trust and Boundaries](../understand/trust-and-boundaries.md)
+
+**Integrations:** [Overview](overview.md) · [GitHub](github.md) · [GitLab](gitlab.md) · [OpenProject](openproject.md) — Similar project tracking
+
+**Reference:** [Bot Commands: JIRA](../reference/bot-commands.md#jira-project-commands) · [Event Types](../reference/event-types.md)
+
+**Operator:** [Configuration](../guides/operator/configuration.md) · [Hardening](../guides/operator/hardening.md)
+
+**Troubleshooting:** [Authentication](../troubleshooting/authentication.md) · [Webhooks Not Arriving](../troubleshooting/webhooks-not-arriving.md) · [Common Errors](../troubleshooting/common-errors.md)

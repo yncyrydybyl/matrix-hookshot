@@ -279,6 +279,14 @@ result = {
 
 ## Related
 
-- [Quickstart](../get-started/quickstart.md) — First webhook in 5 minutes
-- [Event Lifecycle](../understand/event-lifecycle.md) — How events flow through hookshot
-- [Architecture: Connections](../architecture/connections.md) — The Connection abstraction
+**Concepts:** [Event Lifecycle](../understand/event-lifecycle.md) · [Integration Model](../understand/integration-model.md) · [Trust and Boundaries: Sandbox](../understand/trust-and-boundaries.md#transformation-function-sandbox)
+
+**Architecture:** [Connections](../architecture/connections.md) — Connection lifecycle
+
+**Reference:** [Event Types](../reference/event-types.md) · [Bot Commands](../reference/bot-commands.md#setup-commands-in-room)
+
+**Tutorials:** [Quickstart](../get-started/quickstart.md) · [First Webhook](../get-started/first-webhook.md) — Step-by-step with transformations
+
+**Operator:** [Configuration: Generic](../guides/operator/configuration.md#service-configuration) · [Hardening: Webhook URLs](../guides/operator/hardening.md#webhook-url-secrecy)
+
+**Troubleshooting:** [Webhooks Not Arriving](../troubleshooting/webhooks-not-arriving.md) · [Common Errors](../troubleshooting/common-errors.md#webhook-errors)
