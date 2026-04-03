@@ -1,0 +1,26 @@
+# Markdownlint configuration for hookshot documentation
+# See https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+
+# Line length - disabled (docs have tables and long links)
+MD013: false
+
+# Inline HTML - allowed (callouts, badges, embedded content)
+MD033: false
+
+# First line heading - disabled (frontmatter comes first)
+MD041: false
+
+# Duplicate headings - allowed in different sections
+MD024:
+  siblings_only: true
+
+# Trailing punctuation in headings - allow ? for troubleshooting
+MD026:
+  punctuation: ".,;:!"
+
+# Ordered list item prefix - use 1. 2. 3. not 1. 1. 1.
+MD029:
+  style: "ordered"
+
+# Bare URLs - disabled (we use them in reference tables)
+MD034: false

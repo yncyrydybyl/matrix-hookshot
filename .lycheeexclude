@@ -1,0 +1,36 @@
+# Lychee link checker exclusions
+# See https://lychee.cli.rs/
+
+# Localhost URLs (used in config examples)
+http://localhost
+https://localhost
+http://127.0.0.1
+
+# Example domains
+https://example.com
+http://example.com
+https://hookshot.example.com
+https://ci.example.com
+https://jira.example.com
+https://jira.internal.com
+https://github.example.com
+https://your-open-project.com
+https://your-openproject.com
+
+# Matrix homeserver examples
+http://synapse
+http://localhost:8008
+http://localhost:8083
+
+# Placeholder URLs
+https://examplePublicKey@o0.ingest.sentry.io
+
+# Matrix.to links (require JS rendering)
+https://matrix.to/
+
+# GitHub API URLs (not browseable)
+https://api.github.com
+
+# Figma URLs (require auth)
+https://www.figma.com/files
+https://api.figma.com

@@ -1,0 +1,43 @@
+name: Docs Lint
+
+on:
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'scripts/build-*-docs.ts'
+      - 'scripts/validate-*.ts'
+      - '.markdownlint.yml'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Markdown lint
+        uses: DavidAnson/markdownlint-cli2-action@v19
+        with:
+          globs: 'docs/**/*.md'
+          config: '.markdownlint.yml'
+
+      - name: Check internal links
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: >-
+            --no-progress
+            --include-fragments
+            --exclude-file .lycheeexclude
+            --offline
+            docs/**/*.md
+          fail: true
+
+      - name: Validate frontmatter
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+      - run: yarn --ignore-scripts
+      - run: npx ts-node scripts/validate-frontmatter.ts
