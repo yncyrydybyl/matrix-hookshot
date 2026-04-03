@@ -35,9 +35,13 @@ jobs:
             docs/**/*.md
           fail: true
 
-      - name: Validate frontmatter
+      - name: Setup Node
         uses: actions/setup-node@v4
         with:
           node-version-file: .node-version
-      - run: yarn --ignore-scripts
-      - run: npx ts-node scripts/validate-frontmatter.ts
+
+      - name: Install dependencies
+        run: yarn --ignore-scripts
+
+      - name: Validate frontmatter
+        run: npx ts-node scripts/validate-frontmatter.ts

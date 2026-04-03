@@ -10,6 +10,19 @@ MD033: false
 # First line heading - disabled (frontmatter comes first)
 MD041: false
 
+# Multiple H1 headings - disabled (frontmatter title + page H1)
+MD025: false
+
+# Blanks around lists - disabled (too strict for our doc style)
+MD032: false
+
+# Fenced code language - disabled (some blocks are generic output)
+MD040: false
+
+# Ordered list prefix - use lazy numbering (1. 1. 1.) for easier editing
+MD029:
+  style: "one"
+
 # Duplicate headings - allowed in different sections
 MD024:
   siblings_only: true
