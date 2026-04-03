@@ -87,7 +87,10 @@ These event types were used in older versions and are still supported for backwa
 
 ## Related
 
-- [Architecture: Connections](../architecture/connections.md) — How connections use state events
-- [Architecture: State and Storage](../architecture/state-and-storage.md) — Matrix state as database
-- [Integration Overview](../integrations/overview.md) — All connection types
-- [Matrix Spec: Room State Events](https://spec.matrix.org/latest/client-server-api/#room-state)
+**Architecture:** [Connections](../architecture/connections.md) — How connections use state events
+
+**Integrations:** [Overview](../integrations/overview.md) — All connection types
+
+**Reference:** [Matrix Spec Map](matrix-spec-map.md) · [Bot Commands](bot-commands.md)
+
+**Matrix Spec:** [Room State Events](https://spec.matrix.org/latest/client-server-api/#room-state)

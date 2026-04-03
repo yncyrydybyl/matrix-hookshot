@@ -199,7 +199,7 @@ RSS/Atom feeds don't use webhooks. Instead, hookshot polls feeds on an interval 
 
 **Concepts:** [Integration Model](integration-model.md) · [What is Hookshot](what-is-hookshot.md) · [Trust and Boundaries](trust-and-boundaries.md) · [Glossary](glossary.md)
 
-**Architecture:** [Connections](../architecture/connections.md) — Connection lifecycle and state
+**Architecture:** [Connections](../architecture/connections.md) — Connection lifecycle and state · [State and Storage](../architecture/state-and-storage.md) — How data persists
 
 **Integrations:** [Overview](../integrations/overview.md) · [GitHub](../integrations/github.md) · [Generic Webhooks](../integrations/generic-webhooks.md)
 

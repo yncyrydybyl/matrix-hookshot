@@ -100,3 +100,13 @@ Total auto-extracted commands: **43**
 | GitLab Repository Commands   | 4     |
 | JIRA Project Commands        | 4     |
 | OpenProject Commands         | 6     |
+
+## Related
+
+**Concepts:** [Integration Model](../understand/integration-model.md) · [Event Lifecycle: Outbound](../understand/event-lifecycle.md#outbound-matrix-to-external-service)
+
+**Integrations:** [GitHub](../integrations/github.md#bot-commands) · [GitLab](../integrations/gitlab.md#bot-commands) · [JIRA](../integrations/jira.md#bot-commands) · [OpenProject](../integrations/openproject.md#bot-commands) · [Generic Webhooks](../integrations/generic-webhooks.md#setup)
+
+**Operator:** [Configuration: Permissions](../guides/operator/configuration.md#permissions) — Who can run commands
+
+**Troubleshooting:** [Connection Issues](../troubleshooting/connection-issues.md#check-4-is-the-command-prefix-correct)
