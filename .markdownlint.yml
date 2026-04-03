@@ -29,9 +29,11 @@ MD001: false
 MD024:
   siblings_only: true
 
-# Trailing punctuation in headings - allow ? for troubleshooting
-MD026:
-  punctuation: ".,;:!"
+# Trailing punctuation in headings - disabled (old docs use periods)
+MD026: false
+
+# Dollar signs in commands - disabled (old docs use $ prefix)
+MD014: false
 
 # Blanks around headings - disabled (too strict with tables/lists after headings)
 MD022: false
