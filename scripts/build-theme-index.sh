@@ -1,17 +1,44 @@
 #!/bin/bash
-# Generate an HTML comparison page for all built themes.
-# Run AFTER build-theme-comparison.sh
+# Generate theme comparison HTML from whatever themes were built.
+# Auto-discovers themes from docs-themes/ subdirectories.
 #
 # Usage: bash scripts/build-theme-index.sh
 
 OUTPUT_BASE="docs-themes"
-cat > "$OUTPUT_BASE/index.html" << 'HTMLEOF'
+
+# Auto-discover built themes
+THEME_DIRS=$(find "$OUTPUT_BASE" -maxdepth 1 -mindepth 1 -type d | sort)
+THEME_COUNT=$(echo "$THEME_DIRS" | wc -l)
+
+echo "Found $THEME_COUNT themes"
+
+# Build JSON array of themes
+THEMES_JSON="["
+FIRST=true
+for dir in $THEME_DIRS; do
+  name=$(basename "$dir")
+  # Determine family
+  if [[ "$name" == mocha-* ]]; then family="mocha"; label="Mocha ${name#mocha-}"
+  elif [[ "$name" == frappe-* ]]; then family="frappe"; label="Frappé ${name#frappe-}"
+  elif [[ "$name" == macchiato-* ]]; then family="macchiato"; label="Macchiato ${name#macchiato-}"
+  elif [[ "$name" == default-* ]]; then family="default"; label="Default (${name#default-})"
+  else family="other"; label="$name"
+  fi
+  # Capitalize accent
+  label=$(echo "$label" | sed 's/-/ /g' | sed 's/\b\(.\)/\u\1/g')
+
+  [ "$FIRST" = true ] && FIRST=false || THEMES_JSON+=","
+  THEMES_JSON+="{\"name\":\"$name\",\"label\":\"$label\",\"family\":\"$family\"}"
+done
+THEMES_JSON+="]"
+
+cat > "$OUTPUT_BASE/index.html" << HTMLEOF
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hookshot Docs — Theme Comparison</title>
+  <title>Hookshot Docs — Theme Showcase ($THEME_COUNT themes)</title>
   <style>
     :root {
       --bg: #1e1e2e; --surface: #181825; --border: #313244;
@@ -22,14 +49,20 @@ cat > "$OUTPUT_BASE/index.html" << 'HTMLEOF'
     body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; background: var(--bg); color: var(--text); }
     .container { max-width: 1800px; margin: 0 auto; padding: 2rem; }
     header { text-align: center; padding: 3rem 1rem 2rem; }
-    h1 { font-size: 3rem; font-weight: 800;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
+    h1 { font-size: 2.8rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2), #f5c2e7);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .subtitle { color: var(--subtext); font-size: 1.2rem; margin-top: 0.5rem; }
+    .subtitle { color: var(--subtext); font-size: 1.15rem; margin-top: 0.5rem; }
     .stats { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; }
     .stat { text-align: center; }
-    .stat-num { font-size: 2rem; font-weight: 700; color: var(--accent); }
+    .stat-num { font-size: 2.2rem; font-weight: 700; color: var(--accent); }
     .stat-label { font-size: 0.85rem; color: var(--subtext); }
+
+    .controls { display: flex; justify-content: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; }
+    .controls button { padding: 0.5rem 1.2rem; border: 1px solid var(--border); background: transparent;
+      color: var(--subtext); border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+    .controls button:hover { color: var(--text); border-color: var(--accent2); }
+    .controls button.active { background: var(--accent2); color: var(--bg); border-color: var(--accent2); font-weight: 600; }
 
     .tab-bar { display: flex; justify-content: center; gap: 0.5rem; margin: 1.5rem 0; }
     .tab-bar button { padding: 0.6rem 1.5rem; border: 1px solid var(--border); background: transparent;
@@ -37,70 +70,69 @@ cat > "$OUTPUT_BASE/index.html" << 'HTMLEOF'
     .tab-bar button:hover { border-color: var(--accent); }
     .tab-bar button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
 
-    .filter-bar { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
-    .filter-bar button { padding: 0.4rem 1rem; border: 1px solid var(--border); background: transparent;
-      color: var(--subtext); border-radius: 20px; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; }
-    .filter-bar button:hover { color: var(--text); border-color: var(--accent2); }
-    .filter-bar button.active { background: var(--accent2); color: var(--bg); border-color: var(--accent2); }
-
-    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.5rem; }
-    .card { border: 1px solid var(--border); border-radius: 16px; overflow: hidden;
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 1.2rem; }
+    .card { border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
       background: var(--surface); transition: all 0.3s; }
-    .card:hover { transform: translateY(-6px); box-shadow: 0 12px 32px rgba(0,0,0,0.5); border-color: var(--accent); }
-    .card iframe { width: 100%; height: 320px; border: none; pointer-events: none; }
-    .card-info { padding: 1rem 1.2rem; display: flex; justify-content: space-between; align-items: center;
+    .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); border-color: var(--accent); }
+    .card iframe { width: 100%; height: 300px; border: none; pointer-events: none; }
+    .card-info { padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center;
       border-top: 1px solid var(--border); }
-    .card-info h3 { font-size: 1rem; font-weight: 600; }
-    .card-info .badge { font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 12px;
-      background: var(--border); color: var(--subtext); }
-    .card-actions { display: flex; gap: 0.5rem; }
+    .card-info h3 { font-size: 0.95rem; font-weight: 600; }
+    .badge { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 10px;
+      background: var(--border); color: var(--subtext); margin-left: 0.5rem; }
     .card-actions a { color: var(--accent2); text-decoration: none; font-size: 0.85rem;
       padding: 0.3rem 0.8rem; border: 1px solid var(--border); border-radius: 8px; transition: all 0.2s; }
     .card-actions a:hover { background: var(--accent2); color: var(--bg); }
 
     .compare-controls { text-align: center; padding: 1rem; display: none; }
     .compare-controls select, .compare-controls button {
-      padding: 0.5rem 1rem; font-size: 1rem; border-radius: 8px; margin: 0 0.3rem; }
+      padding: 0.5rem 1rem; font-size: 0.95rem; border-radius: 8px; margin: 0 0.3rem; }
     .compare-controls select { border: 1px solid var(--border); background: var(--surface); color: var(--text); }
-    .compare-controls button { border: none; background: var(--accent); color: var(--bg); cursor: pointer; font-weight: 600; }
+    .compare-controls > button { border: none; background: var(--accent); color: var(--bg); cursor: pointer; font-weight: 600; }
     .compare-view { display: none; }
     .compare-view.active { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     .compare-view iframe { width: 100%; height: 85vh; border: 1px solid var(--border); border-radius: 12px; }
-    .compare-label { text-align: center; padding: 0.5rem; font-weight: 600; color: var(--accent); font-size: 1.1rem; }
+    .compare-label { text-align: center; padding: 0.5rem; font-weight: 600; color: var(--accent); }
 
     .hidden { display: none !important; }
+    .size-controls { display: flex; justify-content: center; gap: 0.5rem; margin: 0.5rem 0; }
+    .size-controls button { padding: 0.3rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--border);
+      background: transparent; color: var(--subtext); border-radius: 6px; cursor: pointer; }
+    .size-controls button.active { background: var(--border); color: var(--text); }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
       <h1>Hookshot Docs — Theme Showcase</h1>
-      <p class="subtitle">47 documentation pages rendered in 15 different themes. Browse, compare, pick your favorite.</p>
+      <p class="subtitle">47 documentation pages rendered in $THEME_COUNT different themes</p>
       <div class="stats">
-        <div class="stat"><div class="stat-num">15</div><div class="stat-label">Themes</div></div>
+        <div class="stat"><div class="stat-num">$THEME_COUNT</div><div class="stat-label">Themes</div></div>
         <div class="stat"><div class="stat-num">47</div><div class="stat-label">Pages</div></div>
-        <div class="stat"><div class="stat-num">4</div><div class="stat-label">Catppuccin Flavors</div></div>
+        <div class="stat"><div class="stat-num">20</div><div class="stat-label">Syntax Themes</div></div>
+        <div class="stat"><div class="stat-num">26</div><div class="stat-label">Catppuccin Variants</div></div>
       </div>
     </header>
 
     <div class="tab-bar">
-      <button class="active" onclick="showView('gallery', this)">Gallery</button>
-      <button onclick="showView('compare', this)">Side-by-Side</button>
+      <button class="active" onclick="showView('gallery',this)">Gallery</button>
+      <button onclick="showView('compare',this)">Side-by-Side</button>
     </div>
 
-    <div class="filter-bar" id="filter-bar">
-      <button class="active" onclick="filterThemes('all', this)">All</button>
-      <button onclick="filterThemes('default', this)">Default</button>
-      <button onclick="filterThemes('mocha', this)">Mocha</button>
-      <button onclick="filterThemes('frappe', this)">Frappé</button>
-      <button onclick="filterThemes('macchiato', this)">Macchiato</button>
+    <div class="controls" id="family-filter"></div>
+
+    <div class="size-controls" id="size-controls">
+      Preview: <button onclick="setSize(250,this)">S</button>
+      <button class="active" onclick="setSize(300,this)">M</button>
+      <button onclick="setSize(450,this)">L</button>
+      <button onclick="setSize(600,this)">XL</button>
     </div>
 
     <div class="grid" id="gallery"></div>
 
     <div class="compare-controls" id="compare-controls">
       <select id="left-theme"></select>
-      <span style="color:var(--subtext);margin:0 0.5rem;">vs</span>
+      <span style="color:var(--subtext)">vs</span>
       <select id="right-theme"></select>
       <select id="compare-page">
         <option value="index.html">Home</option>
@@ -113,91 +145,95 @@ cat > "$OUTPUT_BASE/index.html" << 'HTMLEOF'
         <option value="get-started/quickstart">Quickstart</option>
         <option value="reference/bot-commands">Bot Commands</option>
         <option value="project/ecosystem">Ecosystem</option>
+        <option value="project/limitations">Limitations</option>
       </select>
       <button onclick="loadComparison()">Compare</button>
     </div>
 
     <div class="compare-view" id="compare-view">
-      <div><div class="compare-label" id="left-label">Left</div><iframe id="left-frame"></iframe></div>
-      <div><div class="compare-label" id="right-label">Right</div><iframe id="right-frame"></iframe></div>
+      <div><div class="compare-label" id="left-label"></div><iframe id="left-frame"></iframe></div>
+      <div><div class="compare-label" id="right-label"></div><iframe id="right-frame"></iframe></div>
     </div>
   </div>
 
   <script>
-    const themes = [
-      { name: 'default', label: 'Default VitePress', family: 'default', desc: 'Built-in VitePress theme' },
-      { name: 'default-dimmed', label: 'Default (Dimmed)', family: 'default', desc: 'Softer syntax highlighting' },
-      { name: 'mocha-green', label: 'Catppuccin Mocha Green', family: 'mocha', desc: 'Warm dark theme, green accent — our default' },
-      { name: 'mocha-blue', label: 'Catppuccin Mocha Blue', family: 'mocha', desc: 'Warm dark theme, blue accent' },
-      { name: 'mocha-mauve', label: 'Catppuccin Mocha Mauve', family: 'mocha', desc: 'Warm dark theme, purple accent' },
-      { name: 'mocha-pink', label: 'Catppuccin Mocha Pink', family: 'mocha', desc: 'Warm dark theme, pink accent' },
-      { name: 'mocha-sapphire', label: 'Catppuccin Mocha Sapphire', family: 'mocha', desc: 'Warm dark theme, sapphire accent' },
-      { name: 'mocha-lavender', label: 'Catppuccin Mocha Lavender', family: 'mocha', desc: 'Warm dark theme, lavender accent' },
-      { name: 'frappe-green', label: 'Catppuccin Frappé Green', family: 'frappe', desc: 'Mid-tone dark theme, green accent' },
-      { name: 'frappe-blue', label: 'Catppuccin Frappé Blue', family: 'frappe', desc: 'Mid-tone dark theme, blue accent' },
-      { name: 'frappe-mauve', label: 'Catppuccin Frappé Mauve', family: 'frappe', desc: 'Mid-tone dark theme, purple accent' },
-      { name: 'macchiato-green', label: 'Catppuccin Macchiato Green', family: 'macchiato', desc: 'Cool dark theme, green accent' },
-      { name: 'macchiato-blue', label: 'Catppuccin Macchiato Blue', family: 'macchiato', desc: 'Cool dark theme, blue accent' },
-      { name: 'macchiato-lavender', label: 'Catppuccin Macchiato Lavender', family: 'macchiato', desc: 'Cool dark theme, lavender accent' },
-      { name: 'macchiato-peach', label: 'Catppuccin Macchiato Peach', family: 'macchiato', desc: 'Cool dark theme, peach accent' },
-    ];
+    const themes = $THEMES_JSON;
 
     const previewPages = [
       'integrations/github', 'understand/event-lifecycle', 'architecture/connections',
-      'get-started/quickstart', 'integrations/overview'
+      'get-started/quickstart', 'integrations/overview', 'guides/operator/configuration',
+      'project/ecosystem', 'troubleshooting/webhooks-not-arriving', 'reference/bot-commands',
+      'integrations/generic-webhooks'
     ];
-    // Random preview page per card for variety
-    function previewPage(i) { return previewPages[i % previewPages.length]; }
+    const pp = i => previewPages[i % previewPages.length];
 
+    // Discover families
+    const families = [...new Set(themes.map(t => t.family))];
+
+    // Build family filter
+    const filterBar = document.getElementById('family-filter');
+    filterBar.innerHTML = '<button class="active" onclick="filterThemes(\'all\',this)">All (' + themes.length + ')</button>';
+    families.forEach(f => {
+      const count = themes.filter(t => t.family === f).length;
+      filterBar.innerHTML += '<button onclick="filterThemes(\\''+f+'\\',this)">' +
+        f.charAt(0).toUpperCase() + f.slice(1) + ' (' + count + ')</button>';
+    });
+
+    // Build gallery
     const gallery = document.getElementById('gallery');
     themes.forEach((t, i) => {
       const card = document.createElement('div');
       card.className = 'card';
       card.dataset.family = t.family;
-      card.innerHTML = `
-        <iframe src="${t.name}/${previewPage(i)}" loading="lazy"></iframe>
-        <div class="card-info">
-          <div>
-            <h3>${t.label}</h3>
-            <span class="badge">${t.family}</span>
-          </div>
-          <div class="card-actions">
-            <a href="${t.name}/index.html" target="_blank">Browse</a>
-          </div>
-        </div>`;
+      card.innerHTML =
+        '<iframe src="' + t.name + '/' + pp(i) + '" loading="lazy"></iframe>' +
+        '<div class="card-info"><div><h3>' + t.label +
+        '<span class="badge">' + t.family + '</span></h3></div>' +
+        '<div class="card-actions"><a href="' + t.name + '/index.html" target="_blank">Browse ↗</a></div></div>';
       gallery.appendChild(card);
     });
 
+    // Build selects
     const leftSel = document.getElementById('left-theme');
     const rightSel = document.getElementById('right-theme');
     themes.forEach((t, i) => {
-      leftSel.innerHTML += `<option value="${t.name}" ${i===2?'selected':''}>${t.label}</option>`;
-      rightSel.innerHTML += `<option value="${t.name}" ${i===0?'selected':''}>${t.label}</option>`;
+      const opt = '<option value="' + t.name + '">' + t.label + '</option>';
+      leftSel.innerHTML += opt;
+      rightSel.innerHTML += opt;
     });
+    leftSel.selectedIndex = 0;
+    rightSel.selectedIndex = Math.min(2, themes.length - 1);
 
     function showView(view, btn) {
       document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       gallery.style.display = view === 'gallery' ? 'grid' : 'none';
-      document.getElementById('filter-bar').style.display = view === 'gallery' ? 'flex' : 'none';
+      document.getElementById('family-filter').style.display = view === 'gallery' ? 'flex' : 'none';
+      document.getElementById('size-controls').style.display = view === 'gallery' ? 'flex' : 'none';
       document.getElementById('compare-view').className = view === 'compare' ? 'compare-view active' : 'compare-view';
       document.getElementById('compare-controls').style.display = view === 'compare' ? 'block' : 'none';
       if (view === 'compare') loadComparison();
     }
 
     function filterThemes(family, btn) {
-      document.querySelectorAll('.filter-bar button').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('#family-filter button').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      document.querySelectorAll('.card').forEach(card => {
-        card.classList.toggle('hidden', family !== 'all' && card.dataset.family !== family);
+      document.querySelectorAll('.card').forEach(c => {
+        c.classList.toggle('hidden', family !== 'all' && c.dataset.family !== family);
       });
     }
 
+    function setSize(h, btn) {
+      document.querySelectorAll('.size-controls button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.card iframe').forEach(f => f.style.height = h + 'px');
+    }
+
     function loadComparison() {
-      const left = leftSel.value, right = rightSel.value;
+      const l = leftSel.value, r = rightSel.value;
       const page = document.getElementById('compare-page').value;
-      document.getElementById('left-frame').src = `${left}/${page}`;
-      document.getElementById('right-frame').src = `${right}/${page}`;
+      document.getElementById('left-frame').src = l + '/' + page;
+      document.getElementById('right-frame').src = r + '/' + page;
       document.getElementById('left-label').textContent = leftSel.options[leftSel.selectedIndex].text;
       document.getElementById('right-label').textContent = rightSel.options[rightSel.selectedIndex].text;
     }
@@ -206,5 +242,5 @@ cat > "$OUTPUT_BASE/index.html" << 'HTMLEOF'
 </html>
 HTMLEOF
 
-echo "✅ Theme comparison page: $OUTPUT_BASE/index.html"
-echo "   Open in browser: npx serve $OUTPUT_BASE"
+echo "✅ Theme comparison: $OUTPUT_BASE/index.html ($THEME_COUNT themes)"
+echo "   Serve: npx serve $OUTPUT_BASE"
