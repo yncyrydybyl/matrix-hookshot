@@ -73,7 +73,7 @@ EOF
 
   # Build to a SEPARATE output dir per theme (not the default dist/)
   THEME_OUT="$OUTPUT_BASE/$name"
-  if npx vitepress build "$DOCS_DIR" --outDir "../$THEME_OUT" 2>&1 | tail -1; then
+  if npx vitepress build "$DOCS_DIR" --outDir "$(pwd)/$THEME_OUT" 2>&1 | tail -1; then
     echo "    ✅ $name"
   else
     echo "    ❌ FAILED: $name"

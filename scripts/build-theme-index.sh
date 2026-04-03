@@ -5,9 +5,7 @@
 # Usage: bash scripts/build-theme-index.sh
 
 OUTPUT_BASE="docs-themes"
-mkdir -p "$OUTPUT_BASE/themes"
-
-cat > "$OUTPUT_BASE/themes/index.html" << 'HTMLEOF'
+cat > "$OUTPUT_BASE/index.html" << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -208,5 +206,5 @@ cat > "$OUTPUT_BASE/themes/index.html" << 'HTMLEOF'
 </html>
 HTMLEOF
 
-echo "✅ Theme comparison page: $OUTPUT_BASE/themes/index.html"
-echo "   Open in browser or serve with: npx serve $OUTPUT_BASE/themes"
+echo "✅ Theme comparison page: $OUTPUT_BASE/index.html"
+echo "   Open in browser: npx serve $OUTPUT_BASE"
