@@ -68,10 +68,15 @@ EOF
       ;;
   esac
 
+  # Restore config from backup before each theme (clean slate)
+  cp "${CONFIG_FILE}.bak" "$CONFIG_FILE"
   sed -i "s/dark: '.*'/dark: '${dark_hl}'/" "$CONFIG_FILE"
   sed -i "s/light: '.*'/light: '${light_hl}'/" "$CONFIG_FILE"
 
-  # Build to a SEPARATE output dir per theme (not the default dist/)
+  # Set base path so assets resolve correctly when served from subdirectory
+  sed -i "s|cleanUrls: true,|cleanUrls: true,\n  base: '/${name}/',|" "$CONFIG_FILE"
+
+  # Build to a SEPARATE output dir per theme
   THEME_OUT="$OUTPUT_BASE/$name"
   if npx vitepress build "$DOCS_DIR" --outDir "$(pwd)/$THEME_OUT" 2>&1 | tail -1; then
     echo "    ✅ $name"
