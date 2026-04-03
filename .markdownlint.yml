@@ -19,9 +19,11 @@ MD032: false
 # Fenced code language - disabled (some blocks are generic output)
 MD040: false
 
-# Ordered list prefix - use lazy numbering (1. 1. 1.) for easier editing
-MD029:
-  style: "one"
+# Ordered list prefix - disabled (mixed styles across old and new docs)
+MD029: false
+
+# Heading increment - disabled (old docs skip levels)
+MD001: false
 
 # Duplicate headings - allowed in different sections
 MD024:
