@@ -33,5 +33,14 @@ MD024:
 MD026:
   punctuation: ".,;:!"
 
+# Blanks around headings - disabled (too strict with tables/lists after headings)
+MD022: false
+
+# Blanks around fences - disabled (tables followed by code blocks)
+MD031: false
+
+# Blanks around tables - disabled (tables in tight sections)
+MD058: false
+
 # Bare URLs - disabled (we use them in reference tables)
 MD034: false
