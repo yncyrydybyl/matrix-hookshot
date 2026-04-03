@@ -30,4 +30,5 @@ coverage
 devenv.local.nix
 
 # direnv
-.direnv
+.direnvdocs/.vitepress/dist/
+docs/.vitepress/cache/

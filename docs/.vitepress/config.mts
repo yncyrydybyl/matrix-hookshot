@@ -1,0 +1,166 @@
+import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
+
+export default withMermaid(defineConfig({
+  title: 'Matrix Hookshot',
+  description: 'Connect Matrix to the tools your team uses',
+  cleanUrls: true,
+  lastUpdated: true,
+
+  head: [
+    ['link', { rel: 'icon', href: '/logo.png' }],
+  ],
+
+  themeConfig: {
+    logo: '/logo.png',
+    siteTitle: 'Hookshot',
+
+    nav: [
+      { text: 'Get Started', link: '/get-started/quickstart' },
+      { text: 'Integrations', link: '/integrations/overview' },
+      { text: 'Guides', link: '/guides/operator/installation' },
+      { text: 'Architecture', link: '/architecture/connections' },
+      { text: 'Reference', link: '/reference/bot-commands' },
+    ],
+
+    sidebar: [
+      {
+        text: 'Get Started',
+        items: [
+          { text: 'Quickstart', link: '/get-started/quickstart' },
+          { text: 'Evaluate', link: '/get-started/evaluate' },
+          { text: 'Tutorial: First Webhook', link: '/get-started/first-webhook' },
+          { text: 'Tutorial: GitHub Notifications', link: '/get-started/first-github-notification' },
+        ],
+      },
+      {
+        text: 'Understand',
+        items: [
+          { text: 'What is Hookshot', link: '/understand/what-is-hookshot' },
+          { text: 'Event Lifecycle', link: '/understand/event-lifecycle' },
+          { text: 'Integration Model', link: '/understand/integration-model' },
+          { text: 'Trust and Boundaries', link: '/understand/trust-and-boundaries' },
+          { text: 'Glossary', link: '/understand/glossary' },
+        ],
+      },
+      {
+        text: 'Integrations',
+        items: [
+          { text: 'Overview', link: '/integrations/overview' },
+          { text: 'GitHub', link: '/integrations/github' },
+          { text: 'GitLab', link: '/integrations/gitlab' },
+          { text: 'JIRA', link: '/integrations/jira' },
+          { text: 'Generic Webhooks', link: '/integrations/generic-webhooks' },
+          { text: 'RSS/Atom Feeds', link: '/integrations/feeds' },
+          { text: 'Figma', link: '/integrations/figma' },
+          { text: 'OpenProject', link: '/integrations/openproject' },
+          { text: 'ChallengeHound', link: '/integrations/challengehound' },
+        ],
+      },
+      {
+        text: 'Architecture',
+        collapsed: true,
+        items: [
+          { text: 'Connections', link: '/architecture/connections' },
+          { text: 'State and Storage', link: '/architecture/state-and-storage' },
+          { text: 'Component Model', link: '/architecture/component-model' },
+          { text: 'Extensibility', link: '/architecture/extensibility' },
+          { text: 'Failure and Recovery', link: '/architecture/failure-and-recovery' },
+        ],
+      },
+      {
+        text: 'Operator Guides',
+        collapsed: true,
+        items: [
+          { text: 'Installation', link: '/guides/operator/installation' },
+          { text: 'Configuration', link: '/guides/operator/configuration' },
+          { text: 'Monitoring', link: '/guides/operator/monitoring' },
+          { text: 'Encryption', link: '/guides/operator/encryption' },
+          { text: 'Workers and Scaling', link: '/guides/operator/workers-and-scaling' },
+          { text: 'Service Bots', link: '/guides/operator/service-bots' },
+          { text: 'Upgrading', link: '/guides/operator/upgrading' },
+          { text: 'Hardening', link: '/guides/operator/hardening' },
+        ],
+      },
+      {
+        text: 'Reference',
+        collapsed: true,
+        items: [
+          { text: 'Bot Commands', link: '/reference/bot-commands' },
+          { text: 'Event Types', link: '/reference/event-types' },
+          { text: 'Provisioning API', link: '/reference/provisioning-api' },
+          { text: 'Matrix Spec Map', link: '/reference/matrix-spec-map' },
+        ],
+      },
+      {
+        text: 'Troubleshooting',
+        collapsed: true,
+        items: [
+          { text: 'Overview', link: '/troubleshooting/' },
+          { text: 'Webhooks Not Arriving', link: '/troubleshooting/webhooks-not-arriving' },
+          { text: 'Authentication', link: '/troubleshooting/authentication' },
+          { text: 'Connection Issues', link: '/troubleshooting/connection-issues' },
+          { text: 'Common Errors', link: '/troubleshooting/common-errors' },
+        ],
+      },
+      {
+        text: 'Project',
+        collapsed: true,
+        items: [
+          { text: 'Ecosystem', link: '/project/ecosystem' },
+          { text: 'Roadmap', link: '/project/roadmap' },
+          { text: 'Limitations', link: '/project/limitations' },
+        ],
+      },
+    ],
+
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/yncyrydybyl/matrix-hookshot' },
+    ],
+
+    search: {
+      provider: 'local',
+    },
+
+    editLink: {
+      pattern: 'https://github.com/yncyrydybyl/matrix-hookshot/edit/main/docs/:path',
+    },
+
+    outline: {
+      level: [2, 3],
+    },
+
+    footer: {
+      message: 'Released under the Apache 2.0 License.',
+      copyright: 'Originally by matrix-org. Fork maintained by yncyrydybyl.',
+    },
+  },
+
+  // Allow dead links during migration — old docs reference pages not yet migrated
+  ignoreDeadLinks: true,
+
+  srcExclude: [
+    'setup/**',
+    'usage/**',
+    'advanced/**',
+    'dev/**',
+    '_site/**',
+    'hookshot.md',
+    'setup.md',
+    'metrics.md',
+    'sentry.md',
+    'troubleshooting.md',
+    'SUMMARY.md',
+  ],
+
+  markdown: {
+    theme: {
+      light: 'github-light',
+      dark: 'github-dark',
+    },
+  },
+
+  mermaid: {
+    theme: 'neutral',
+  },
+}))

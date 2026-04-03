@@ -25,9 +25,11 @@ MD029: false
 # Heading increment - disabled (old docs skip levels)
 MD001: false
 
-# Duplicate headings - allowed in different sections
-MD024:
-  siblings_only: true
+# Duplicate headings - disabled (old docs reuse "Example script" headings)
+MD024: false
+
+# Spaces in code spans - disabled (old docs have trailing spaces in backticks)
+MD038: false
 
 # Trailing punctuation in headings - disabled (old docs use periods)
 MD026: false
