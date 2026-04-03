@@ -283,7 +283,7 @@ result = {
 
 **Architecture:** [Connections](../architecture/connections.md) — Connection lifecycle
 
-**Reference:** [Event Types](../reference/event-types.md) · [Bot Commands](../reference/bot-commands.md#setup-commands-in-room)
+**Reference:** [Event Types](../reference/event-types.md) · [Bot Commands](../reference/bot-commands.md#admin-commands-dm-with-bot)
 
 **Tutorials:** [Quickstart](../get-started/quickstart.md) · [First Webhook](../get-started/first-webhook.md) — Step-by-step with transformations
 

@@ -140,7 +140,7 @@ The provisioning API returns the last 5 poll results per feed, including timesta
 
 **Integrations:** [Overview](overview.md) · [Generic Webhooks](generic-webhooks.md) — Alternative for push-based sources
 
-**Reference:** [Event Types](../reference/event-types.md) · [Bot Commands](../reference/bot-commands.md#setup-commands-in-room)
+**Reference:** [Event Types](../reference/event-types.md) · [Bot Commands](../reference/bot-commands.md#admin-commands-dm-with-bot)
 
 **Operator:** [Configuration: Cache](../guides/operator/configuration.md#cache-optional) — Redis for persistence · [Configuration: Service bots](../guides/operator/service-bots.md) — Dedicated feeds bot · [Monitoring](../guides/operator/monitoring.md)
 

@@ -71,7 +71,7 @@ Where `<file-url>` is the Figma file URL, e.g., `https://www.figma.com/files/pro
 
 **Integrations:** [Overview](overview.md)
 
-**Reference:** [Event Types](../reference/event-types.md) · [Bot Commands](../reference/bot-commands.md#setup-commands-in-room)
+**Reference:** [Event Types](../reference/event-types.md) · [Bot Commands](../reference/bot-commands.md#admin-commands-dm-with-bot)
 
 **Operator:** [Configuration](../guides/operator/configuration.md) · [Service Bots](../guides/operator/service-bots.md) — Dedicated Figma bot
 
