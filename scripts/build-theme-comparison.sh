@@ -1,13 +1,6 @@
 #!/bin/bash
 # Build the docs with 15 different themes for side-by-side comparison.
-# Output: docs/.vitepress/dist/themes/<theme-name>/
-#
-# Themes:
-#   - Default VitePress (2 syntax highlight variants)
-#   - Catppuccin Mocha (6 accent colors)
-#   - Catppuccin Frappé (3 accent colors)
-#   - Catppuccin Macchiato (3 accent colors)
-#   - Aplós (standalone theme)
+# Output: docs-themes/<theme-name>/
 #
 # Usage: bash scripts/build-theme-comparison.sh
 
@@ -16,7 +9,7 @@ set -e
 DOCS_DIR="docs"
 THEME_FILE="$DOCS_DIR/.vitepress/theme/index.ts"
 CONFIG_FILE="$DOCS_DIR/.vitepress/config.mts"
-OUTPUT_BASE="$DOCS_DIR/.vitepress/dist"
+OUTPUT_BASE="docs-themes"
 
 # Save originals
 cp "$THEME_FILE" "${THEME_FILE}.bak"
@@ -28,8 +21,6 @@ cleanup() {
 }
 trap cleanup EXIT
 
-# Theme definitions: name|type|flavor|accent|dark_hl|light_hl
-# type: default, catppuccin, aplos
 THEMES=(
   "default|default|none|none|github-dark|github-light"
   "default-dimmed|default|none|none|github-dark-dimmed|github-light"
@@ -48,7 +39,8 @@ THEMES=(
   "macchiato-peach|catppuccin|macchiato|peach|catppuccin-macchiato|catppuccin-latte"
 )
 
-mkdir -p "$OUTPUT_BASE/themes"
+rm -rf "$OUTPUT_BASE"
+mkdir -p "$OUTPUT_BASE"
 
 TOTAL=${#THEMES[@]}
 CURRENT=0
@@ -58,9 +50,8 @@ for entry in "${THEMES[@]}"; do
   IFS='|' read -r name type flavor accent dark_hl light_hl <<< "$entry"
   CURRENT=$((CURRENT + 1))
   echo ""
-  echo "=== [$CURRENT/$TOTAL] Building theme: $name ($type) ==="
+  echo "=== [$CURRENT/$TOTAL] Building theme: $name ==="
 
-  # Write theme/index.ts based on type
   case "$type" in
     default)
       cat > "$THEME_FILE" << 'EOF'
@@ -75,27 +66,15 @@ import '@catppuccin/vitepress/theme/${flavor}/${accent}.css'
 export default DefaultTheme
 EOF
       ;;
-    aplos)
-      cat > "$THEME_FILE" << 'EOF'
-import Aplos from 'aplos'
-export default Aplos
-EOF
-      ;;
   esac
 
-  # Update syntax highlighting in config
   sed -i "s/dark: '.*'/dark: '${dark_hl}'/" "$CONFIG_FILE"
   sed -i "s/light: '.*'/light: '${light_hl}'/" "$CONFIG_FILE"
 
-  # Build
-  if npx vitepress build "$DOCS_DIR" 2>&1 | tail -2; then
-    # Copy output (avoid nesting themes/ inside themes/)
-    TMPDIR=$(mktemp -d)
-    cp -r "$OUTPUT_BASE/"* "$TMPDIR/" 2>/dev/null || true
-    rm -rf "$TMPDIR/themes"
-    rm -rf "$OUTPUT_BASE/themes/$name"
-    mv "$TMPDIR" "$OUTPUT_BASE/themes/$name"
-    echo "    ✅ Built: themes/$name/"
+  # Build to a SEPARATE output dir per theme (not the default dist/)
+  THEME_OUT="$OUTPUT_BASE/$name"
+  if npx vitepress build "$DOCS_DIR" --outDir "../$THEME_OUT" 2>&1 | tail -1; then
+    echo "    ✅ $name"
   else
     echo "    ❌ FAILED: $name"
     FAILED=$((FAILED + 1))
@@ -103,10 +82,8 @@ EOF
 done
 
 echo ""
-echo "=== Results: $((TOTAL - FAILED))/$TOTAL themes built ==="
-if [ $FAILED -gt 0 ]; then
-  echo "    $FAILED theme(s) failed to build"
-fi
+echo "=== $((TOTAL - FAILED))/$TOTAL themes built ==="
+echo "Output: $OUTPUT_BASE/"
+ls -d "$OUTPUT_BASE/"*/ 2>/dev/null | while read d; do echo "  $(basename "$d")"; done
 echo ""
-echo "Output: $OUTPUT_BASE/themes/"
-ls -d "$OUTPUT_BASE/themes/"*/ 2>/dev/null | while read d; do echo "  $(basename "$d")"; done
+echo "Next: bash scripts/build-theme-index.sh"

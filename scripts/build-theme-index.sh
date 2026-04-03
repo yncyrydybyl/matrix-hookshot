@@ -4,7 +4,7 @@
 #
 # Usage: bash scripts/build-theme-index.sh
 
-OUTPUT_BASE="docs/.vitepress/dist"
+OUTPUT_BASE="docs-themes"
 mkdir -p "$OUTPUT_BASE/themes"
 
 cat > "$OUTPUT_BASE/themes/index.html" << 'HTMLEOF'
