@@ -1,0 +1,45 @@
+/* Wider content area — VitePress default is 688px which is too narrow for tables */
+:root {
+  --vp-layout-max-width: 1440px;
+}
+
+.VPDoc .container {
+  max-width: var(--vp-layout-max-width) !important;
+}
+
+/* Wider content column */
+.VPDoc:not(.has-sidebar) .content {
+  max-width: 960px !important;
+}
+
+.VPDoc.has-sidebar .content {
+  max-width: 960px !important;
+}
+
+/* Let tables use full available width */
+.vp-doc table {
+  width: 100%;
+  display: table;
+}
+
+/* Prevent table cells from being too cramped */
+.vp-doc th,
+.vp-doc td {
+  min-width: 80px;
+}
+
+/* Code blocks should scroll horizontally, not wrap */
+.vp-doc div[class*="language-"] {
+  max-width: 100%;
+}
+
+/* Home page hero — use more width */
+.VPHome .VPHero {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.VPHome .VPFeatures {
+  max-width: 1200px;
+  margin: 0 auto;
+}
