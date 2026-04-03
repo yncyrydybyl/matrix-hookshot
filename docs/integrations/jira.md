@@ -26,13 +26,17 @@ Supports both **JIRA Cloud** (Atlassian-hosted) and **JIRA Server/Data Center** 
 
 ## Supported events
 
-| JIRA event | Handler | Topic |
-|---|---|---|
-| Issue created | `onJiraIssueCreated` | `jira.issue_created` |
-| Issue updated | `onJiraIssueUpdated` | `jira.issue_updated` |
-| Version created | `onJiraVersionEvent` | `jira.version_created` |
-| Version updated | `onJiraVersionEvent` | `jira.version_updated` |
-| Version released | `onJiraVersionEvent` | `jira.version_released` |
+| JIRA event | Handler | Topic | Filterable |
+|---|---|---|---|
+| Issue created | `onJiraIssueCreated` | `jira.issue_created` | Yes (default: enabled) |
+| Issue updated | `onJiraIssueUpdated` | `jira.issue_updated` | Yes |
+| Version created | `onJiraVersionEvent` | `jira.version_created` | Yes |
+| Version updated | `onJiraVersionEvent` | `jira.version_updated` | Yes |
+| Version released | `onJiraVersionEvent` | `jira.version_released` | Yes |
+
+Events can be filtered per-connection via the `events` array in the connection state.
+
+<!-- Code: src/Connections/JiraProject.ts:37-57 -->
 
 <!-- Code: src/Bridge.ts:808-823 -->
 
@@ -130,12 +134,25 @@ Admin commands (DM with bot):
 
 Or use the widget UI.
 
+## Webhook verification
+
+JIRA webhooks are verified using two strategies:
+
+1. **Query parameter secret** — On-premise JIRA appends `?secret=...` to the webhook URL. Hookshot compares directly.
+2. **HMAC-SHA256 signature** — JIRA Cloud sends `x-hub-signature` header with `sha256=<hex>` format.
+
+Hookshot auto-detects Cloud vs On-Premise by checking for the `x-atlassian-webhook-identifier` header.
+
+<!-- Code: src/jira/Router.ts:48-87 -->
+
 ## Limitations
 
 - `jira-client` npm package (v8.2.2) is unmaintained — last meaningful update was years ago
 - JIRA Server reached EOL February 2024 — hookshot still supports it but Data Center may behave differently
 - OAuth 1.0 with RSA-SHA1 for Server is legacy — Data Center supports OAuth 2.0 but hookshot doesn't implement it for on-premise
+- On-Premise OAuth 1.0a tokens have no refresh capability — users must re-authenticate when tokens expire
 - Only issue and version events are supported — no board, sprint, or comment events
+- Cloud OAuth tokens auto-refresh; accessible resources cached with 60s TTL
 - The split between Cloud and Server clients adds maintenance burden
 
 ## Upstream references

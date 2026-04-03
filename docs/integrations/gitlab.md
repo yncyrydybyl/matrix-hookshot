@@ -108,13 +108,33 @@ Add a webhook in GitLab: Project → Settings → Webhooks:
 - **Secret token**: the `webhook.secret` from your config
 - **Events**: merge request, push, tag push, issue, note, release, wiki page
 
+## Connection options
+
+| Option | Type | Default | Description |
+|---|---|---|---|
+| `instance` | string | required | GitLab instance name (from config) |
+| `path` | string | required | Project path (e.g., `org/repo`) |
+| `enableHooks` | string[] | 14 defaults | Which events to receive |
+| `includeCommentBody` | boolean | false | Include comment text in notifications |
+| `pushTagsRegex` | string | all | Regex filter for tag push events |
+| `includingLabels` | string[] | all | Only show events with these labels |
+| `excludingLabels` | string[] | none | Hide events with these labels |
+
+<!-- Code: src/Connections/GitlabRepo.ts:44-57 -->
+
+### Default enabled events
+
+`merge_request.open`, `merge_request.close`, `merge_request.merge`, `merge_request.reopen`, `merge_request.review`, `merge_request.review.individual`, `merge_request.ready_for_review`, `merge_request.review.comments`, `merge_request`, `tag_push`, `push`, `wiki`, `release`, `release.created`
+
+<!-- Code: src/Connections/GitlabRepo.ts:86-121 -->
+
 ## Bot commands
 
-| Command | Description | Example |
-|---|---|---|
-| `!gl create <title>` | Create an issue | `!gl create "Fix deployment"` |
-| `!gl create-confidential <title>` | Create a confidential issue | `!gl create-confidential "Security vuln"` |
-| `!gl close <number>` | Close an issue | `!gl close 42` |
+| Command | Required args | Optional args | Description |
+|---|---|---|---|
+| `!gl create <title>` | `title` | `description`, `labels` | Create an issue |
+| `!gl create-confidential <title>` | `title` | `description`, `labels` | Create a confidential issue |
+| `!gl close <number>` | `number` | `comment` | Close an issue |
 
 ## Limitations
 
