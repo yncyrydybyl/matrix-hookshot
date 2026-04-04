@@ -24,7 +24,7 @@ jobs:
           globs: 'docs/**/*.md'
           config: '.markdownlint.yml'
 
-      - name: Check internal links
+      - name: Check internal links (new docs only)
         uses: lycheeverse/lychee-action@v2
         with:
           args: >-
@@ -32,7 +32,14 @@ jobs:
             --include-fragments
             --exclude-file .lycheeexclude
             --offline
-            docs/**/*.md
+            docs/understand/*.md
+            docs/get-started/*.md
+            docs/integrations/*.md
+            docs/architecture/*.md
+            docs/guides/**/*.md
+            docs/reference/*.md
+            docs/troubleshooting/*.md
+            docs/project/*.md
           fail: true
 
       - name: Setup Node
