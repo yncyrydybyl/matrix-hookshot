@@ -83,7 +83,7 @@ GitHub defaults to 13 of 23 event types. For example, `push` events are **disabl
 
 Check current config via room state or `!hookshot list`. To enable more events, update the connection config via widget, API, or state event.
 
-<!-- Code: src/Connections/GithubRepo.ts:205-218 (default enabled events) -->
+> **Source:** [`src/Connections/GithubRepo.ts:205-218`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts#L205-L218)
 
 ## Check 8: Connection state in Matrix
 

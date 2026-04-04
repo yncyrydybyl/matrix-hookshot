@@ -27,7 +27,7 @@ This starts:
 
 Wait ~30 seconds for all services to initialize.
 
-<!-- Code: docker-compose.yml -->
+> **Source:** docker-compose.yml
 
 ## Step 2: Log into Element
 
@@ -58,7 +58,7 @@ Webhook test-hook created. URL: http://localhost:9000/webhook/<hookId>
 
 Copy the URL.
 
-<!-- Code: src/Connections/SetupConnection.ts — webhook setup command -->
+> **Source:** [`src/Connections/SetupConnection.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/SetupConnection.ts)
 
 ## Step 5: Send a test payload
 
@@ -86,7 +86,7 @@ Hello from the outside!
 
 The JSON `text` field was extracted and delivered as a Matrix message.
 
-<!-- Code: src/Connections/GenericHook.ts:609-629 — text field extraction -->
+> **Source:** [`src/Connections/GenericHook.ts:609-629`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts#L609-L629)
 
 ## What just happened
 
@@ -113,7 +113,7 @@ curl -X POST http://localhost:9000/webhook/<hookId> \
 
 Hookshot recognizes `text`, `html`, and `username` fields and formats the message accordingly.
 
-<!-- Code: src/Connections/GenericHook.ts:601-632 -->
+> **Source:** [`src/Connections/GenericHook.ts:601-632`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts#L601-L632)
 
 ## Next steps
 

@@ -32,7 +32,7 @@ These state events store connection configuration in Matrix rooms. Each connecti
 
 The **state key** identifies the specific external resource (e.g., `my-org/my-repo` for a GitHub connection).
 
-<!-- Code: CanonicalEventType static property on each Connection class in src/Connections/*.ts -->
+> **Source:** [`src/Connections/`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/)
 
 ## Message metadata event types
 
@@ -48,7 +48,7 @@ These types appear as custom fields inside `m.room.message` events to carry stru
 | `uk.half-shot.matrix-hookshot.feeds.item` | Feed entry notifications | Full feed entry object |
 | `uk.half-shot.matrix-hookshot.jira.issue` | JIRA issue notifications | Issue metadata |
 
-<!-- Code: src/FormatUtil.ts:60-134 (GitHub metadata), src/Connections/FeedConnection.ts:274 (feed item) -->
+> **Source:** [`src/FormatUtil.ts:60-134`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/FormatUtil.ts#L60-L134) · [`src/Connections/FeedConnection.ts:274`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/FeedConnection.ts#L274)
 
 ## System event types
 
@@ -82,8 +82,8 @@ These event types were used in older versions and are still supported for backwa
 | `uk.half-shot.matrix-github.gitlab.notif_state` | `uk.half-shot.matrix-hookshot.gitlab.notif_state` |
 | `uk.half-shot.matrix-github.jira.project` | `uk.half-shot.matrix-hookshot.jira.project` |
 
-<!-- Code: LegacyCanonicalEventType properties on Connection classes -->
-<!-- Note: No documented migration path from legacy to current types exists -->
+> **Source:** LegacyCanonicalEventType properties on Connection classes
+> **Note:** No documented migration path from legacy to current types exists
 
 ## Related
 

@@ -23,7 +23,7 @@ bridge:
 
 The `port` and `bindAddress` here are for the **appservice API** (homeserver → hookshot). This must NOT be publicly accessible. It listens on `/_matrix/app/`.
 
-<!-- Code: src/config/Config.ts BridgeConfigBridge interface -->
+> **Source:** [`src/config/Config.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/config/Config.ts)
 
 ## Logging (required)
 
@@ -117,7 +117,7 @@ location /widgetapi/ {
 }
 ```
 
-<!-- Code: src/ListenerService.ts:31-141, docs/setup.md:193-250 -->
+> **Source:** [`src/ListenerService.ts:31-141`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/ListenerService.ts#L31-L141)
 
 ## Permissions
 
@@ -173,7 +173,7 @@ permissions:
         level: admin
 ```
 
-<!-- Code: src/config/permissions.rs (Rust NAPI), docs/setup.md:92-191 -->
+> **Source:** [`src/config/permissions.rs`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/config/permissions.rs)
 
 ## Cache (optional)
 

@@ -33,7 +33,7 @@ feeds:
 
 Feeds are parsed in Rust for performance. Supports ETag/Last-Modified caching.
 
-<!-- Code: src/feeds/parser.rs (Rust), config.sample.yml feeds section -->
+> **Source:** [`src/feeds/parser.rs`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/feeds/parser.rs)
 
 **Redis required for persistence:** Without Redis, hookshot runs an "initial sync" on each startup and treats all existing entries as already seen. Previously seen entries are lost on restart, which may cause re-posting.
 
@@ -88,7 +88,7 @@ Customize how feed entries appear in Matrix. Available tokens:
 
 Default template: `New post in $FEEDNAME: $LINK`
 
-<!-- Code: src/Connections/FeedConnection.ts:186-213 -->
+> **Source:** [`src/Connections/FeedConnection.ts:186-213`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/FeedConnection.ts#L186-L213)
 
 ## Connection options
 
@@ -109,7 +109,7 @@ Default template: `New post in $FEEDNAME: $LINK`
 
 Each feed is polled once regardless of how many rooms subscribe to it. Entry deduplication uses MD5 hashing.
 
-<!-- Code: src/Connections/FeedConnection.ts:244-284, src/feeds/parser.rs -->
+> **Source:** [`src/Connections/FeedConnection.ts:244-284`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/FeedConnection.ts#L244-L284) · [`src/feeds/parser.rs`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/feeds/parser.rs)
 
 ## Diagnostics
 
@@ -125,7 +125,7 @@ The provisioning API returns the last 5 poll results per feed, including timesta
 - Entries are not sorted by date before posting — they arrive in feed order
 - Message retry: 5 attempts with 5-second intervals on send failure
 
-<!-- Code: src/Connections/FeedConnection.ts:276-283 (retry logic) -->
+> **Source:** [`src/Connections/FeedConnection.ts:276-283`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/FeedConnection.ts#L276-L283)
 
 ## Upstream references
 

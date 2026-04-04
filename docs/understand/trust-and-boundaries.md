@@ -59,7 +59,7 @@ The appservice can:
 - Create and manage rooms
 - Cannot read events in rooms where the bot is not a member
 
-<!-- Code: registration.sample.yml, src/Bridge.ts:1175 (as.begin()) -->
+> **Source:** [`src/Bridge.ts:1175`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L1175)
 <!-- Spec: https://spec.matrix.org/latest/application-service-api/ -->
 
 ## External service side: Per-service auth
@@ -77,7 +77,7 @@ Each external service uses its own authentication model:
 
 The GitHub App is the most privileged credential. It can read/write issues, PRs, and discussions on every repo where the App is installed.
 
-<!-- Code: src/github/GithubInstance.ts:65-71 (App auth), src/github/AdminCommands.ts:12-40 (user OAuth) -->
+> **Source:** [`src/github/GithubInstance.ts:65-71`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/github/GithubInstance.ts#L65-L71) · [`src/github/AdminCommands.ts:12-40`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/github/AdminCommands.ts#L12-L40)
 
 ### GitLab
 
@@ -110,7 +110,7 @@ User credentials (OAuth tokens, personal access tokens) are stored in an encrypt
 
 The `passFile` RSA key is the master secret. If compromised, all stored tokens are exposed.
 
-<!-- Code: src/tokens/mod.rs (Rust encryption), config.sample.yml line 17-19 -->
+> **Source:** [`src/tokens/mod.rs`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/tokens/mod.rs)
 
 ## Permission system
 
@@ -130,7 +130,7 @@ permissions:
 
 Permission levels (ascending): `login` < `notifications` < `commands` < `manageConnections` < `admin`
 
-<!-- Code: src/config/permissions.rs (Rust NAPI), BridgePermissionLevel in src/config/Config.ts -->
+> **Source:** [`src/config/permissions.rs`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/config/permissions.rs) · [`src/config/Config.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/config/Config.ts)
 
 ### What each level allows
 
@@ -156,7 +156,7 @@ Inbound webhooks are verified differently per service:
 
 Generic webhooks have **no signature verification**. The unique UUID in the URL is the only protection. Treat webhook URLs as secrets.
 
-<!-- Code: src/github/Router.ts:74-99 (GitHub HMAC), src/Connections/GenericHook.ts:315 (UUID) -->
+> **Source:** [`src/github/Router.ts:74-99`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/github/Router.ts#L74-L99) · [`src/Connections/GenericHook.ts:315`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts#L315)
 
 ## Transformation function sandbox
 
@@ -171,7 +171,7 @@ User-supplied JavaScript transformation functions run in a **QuickJS sandbox** (
 
 Functions are killed after 500ms.
 
-<!-- Code: src/Connections/GenericHook.ts:421-422 (WebhookTransformer) -->
+> **Source:** [`src/Connections/GenericHook.ts:421-422`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts#L421-L422)
 
 ## What to protect
 

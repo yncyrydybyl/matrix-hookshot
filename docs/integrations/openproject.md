@@ -28,7 +28,7 @@ Hookshot connects Matrix rooms to OpenProject instances. It delivers notificatio
 | Work package created | `onWorkPackageCreated` | `openproject.work_package:created` |
 | Work package updated | `onWorkPackageUpdated` | `openproject.work_package:updated` |
 
-<!-- Code: src/Bridge.ts:1001-1012 -->
+> **Source:** [`src/Bridge.ts:1001-1012`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L1001-L1012)
 
 ## Configuration
 
@@ -58,7 +58,7 @@ openProject:
     redirectUri: "https://hookshot.example.com/openproject/oauth"
 ```
 
-<!-- Code: config.sample.yml openProject section -->
+> **Source:** config.sample.yml openProject section
 
 ## Authentication
 

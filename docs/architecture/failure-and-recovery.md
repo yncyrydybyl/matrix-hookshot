@@ -33,7 +33,7 @@ Hookshot's startup sequence handles failures at each stage:
 3. **Connection reconstruction** — invalid state events are logged and skipped, not fatal
 4. **Service initialization** — GitHub/Figma webhook setup failures are logged but don't prevent startup
 
-<!-- Code: src/Bridge.ts:169-180 (homeserver retry), :1024-1115 (room processing) -->
+> **Source:** [`src/Bridge.ts:169-180`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L169-L180)
 
 ## Message delivery guarantees
 
@@ -57,7 +57,7 @@ Hookshot does **not** provide exactly-once delivery. Duplicate messages are poss
 - **Backoff:** Under load, polling interval may increase (never decreases below configured interval)
 - **Deduplication:** MD5 hash of entry GUID prevents re-posting seen entries (requires [Redis](state-and-storage.md#redisstorageprovider) for persistence)
 
-<!-- Code: src/Connections/FeedConnection.ts:276-283 (retry), :295-319 (error handling) -->
+> **Source:** [`src/Connections/FeedConnection.ts:276-283`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/FeedConnection.ts#L276-L283)
 
 ## What to monitor
 

@@ -50,7 +50,7 @@ sequenceDiagram
     Note over Matrix: Message appears in room
 ```
 
-<!-- Code: src/Webhooks.ts:17-166, src/Bridge.ts:299-1023, src/MatrixSender.ts:53-91 -->
+> **Source:** [`src/Webhooks.ts:17-166`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Webhooks.ts#L17-L166) · [`src/Bridge.ts:299-1023`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L299-L1023) · [`src/MatrixSender.ts:53-91`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/MatrixSender.ts#L53-L91)
 
 ### Step by step
 
@@ -65,11 +65,11 @@ sequenceDiagram
 | `/webhook/{hookId}` | Generic webhooks | GenericWebhooksRouter |
 | `/openproject` | OpenProject | OpenProjectWebhooksRouter |
 
-<!-- Code: src/Webhooks.ts:68-100 -->
+> **Source:** [`src/Webhooks.ts:68-100`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Webhooks.ts#L68-L100)
 
 **2. Signature verification** — Each service router verifies the webhook is authentic. GitHub uses HMAC-SHA256 via `x-hub-signature-256`. GitLab uses a secret token header. JIRA and others have their own mechanisms.
 
-<!-- Code: src/github/Router.ts:74-99 -->
+> **Source:** [`src/github/Router.ts:74-99`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/github/Router.ts#L74-L99)
 
 **3. Message queue** — The verified payload is emitted to the internal message queue with a topic name following the pattern `{service}.{event}.{action}`. Examples: `github.issues.opened`, `gitlab.merge_request.close`, `jira.issue_created`.
 
@@ -85,7 +85,7 @@ There are **45+ handler bindings** across all services:
 - ChallengeHound: 1 binding (activity)
 - Generic webhooks: 1 binding
 
-<!-- Code: src/Bridge.ts:299-1023 — full handler binding list -->
+> **Source:** [`src/Bridge.ts:299-1023`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L299-L1023)
 
 **5. Connection lookup** — ConnectionManager finds all Connection instances interested in this event. For GitHub, this means finding all `GitHubRepoConnection` instances connected to the repository that generated the event.
 
@@ -97,7 +97,7 @@ There are **45+ handler bindings** across all services:
 
 Not all events reach Matrix. Each connection instance has an `enableHooks` list that controls which event types produce messages. For example, a GitHub repo connection defaults to 13 of 23 possible event types.
 
-<!-- Code: src/Connections/GithubRepo.ts:205-218 (default enabled events) -->
+> **Source:** [`src/Connections/GithubRepo.ts:205-218`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts#L205-L218)
 
 ### Message format
 
@@ -118,7 +118,7 @@ All hookshot messages share a common structure:
 
 The `uk.half-shot.matrix-hookshot.*` fields carry structured metadata about the source event (repo, issue, PR, etc.). This enables Matrix clients to build rich displays.
 
-<!-- Code: src/FormatUtil.ts:60-134 -->
+> **Source:** [`src/FormatUtil.ts:60-134`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/FormatUtil.ts#L60-L134)
 
 ## Outbound: Matrix to External Service
 
@@ -142,7 +142,7 @@ sequenceDiagram
     CONN->>HS: Send confirmation: "Created issue #42"
 ```
 
-<!-- Code: src/Bridge.ts:1338 (onRoomMessage), src/BotCommands.ts:199 (handleCommand) -->
+> **Source:** [`src/Bridge.ts:1338`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L1338) · [`src/BotCommands.ts:199`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/BotCommands.ts#L199)
 
 ### Step by step
 
@@ -152,7 +152,7 @@ sequenceDiagram
 
 **3. Permission check** — Before executing, hookshot checks if the user has permission for this action via the `BridgePermissions` system.
 
-<!-- Code: src/config/permissions.rs (Rust NAPI module) -->
+> **Source:** [`src/config/permissions.rs`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/config/permissions.rs)
 
 **4. External API call** — The connection calls the external service API (Octokit for GitHub, axios for GitLab, etc.) using the appropriate credentials.
 
@@ -168,7 +168,7 @@ sequenceDiagram
 | OpenProject | `!op` | `create`, `close`, `priority`, `assign`, `responsible` |
 | Setup | `!hookshot` | `github repo`, `gitlab project`, `jira project`, `webhook`, `feed`, ... |
 
-<!-- Code: @botCommand decorators across src/Connections/*.ts and src/AdminRoom.ts -->
+> **Source:** [`src/Connections/`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/) · [`src/AdminRoom.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/AdminRoom.ts)
 
 ## Emoji reactions
 
@@ -182,13 +182,13 @@ A special outbound flow: hookshot maps Matrix emoji reactions to actions on exte
 | :white_check_mark: | Approve PR |
 | :x: :no_entry_sign: | Request changes on PR |
 
-<!-- Code: src/Connections/GithubRepo.ts reaction handlers -->
+> **Source:** [`src/Connections/GithubRepo.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts)
 
 ## Feed polling (special case)
 
 RSS/Atom feeds don't use webhooks. Instead, hookshot polls feeds on an interval using a Rust-based feed parser. New entries produce `feed.entry` events on the message queue, which follow the same Connection handler path as webhook events.
 
-<!-- Code: src/feeds/parser.rs (Rust), src/Connections/FeedConnection.ts:244-284 -->
+> **Source:** [`src/feeds/parser.rs`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/feeds/parser.rs) · [`src/Connections/FeedConnection.ts:244-284`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/FeedConnection.ts#L244-L284)
 
 ## Failure behavior
 
@@ -201,7 +201,7 @@ RSS/Atom feeds don't use webhooks. Instead, hookshot polls feeds on an interval 
 | Matrix message send fails | Error logged, message queue handles retry |
 | Homeserver unreachable | Messages queued, retried when connection restored |
 
-<!-- Assumption — retry behavior needs verification against MessageQueue implementation -->
+> ⚠️ **Assumption — retry behavior needs verification against MessageQueue implementation**
 
 ## Related
 

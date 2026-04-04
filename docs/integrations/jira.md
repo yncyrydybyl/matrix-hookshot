@@ -36,9 +36,9 @@ Supports both **JIRA Cloud** (Atlassian-hosted) and **JIRA Server/Data Center** 
 
 Events can be filtered per-connection via the `events` array in the connection state.
 
-<!-- Code: src/Connections/JiraProject.ts:37-57 -->
+> **Source:** [`src/Connections/JiraProject.ts:37-57`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/JiraProject.ts#L37-L57)
 
-<!-- Code: src/Bridge.ts:808-823 -->
+> **Source:** [`src/Bridge.ts:808-823`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L808-L823)
 
 ## Authentication
 
@@ -96,7 +96,7 @@ Then configure an Application Link in JIRA:
 3. Set Application Name, Type: Generic Application, enable "Create incoming link"
 4. Enter your `consumerKey`, any consumer name, and the public key from `jira_publickey.pem`
 
-<!-- Code: docs/setup/jira.md:79-117 (full on-premise setup steps) -->
+> **Source:** docs/setup/jira.md:79-117 (full on-premise setup steps)
 
 ## Webhook setup
 
@@ -143,7 +143,7 @@ JIRA webhooks are verified using two strategies:
 
 Hookshot auto-detects Cloud vs On-Premise by checking for the `x-atlassian-webhook-identifier` header.
 
-<!-- Code: src/jira/Router.ts:48-87 -->
+> **Source:** [`src/jira/Router.ts:48-87`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/jira/Router.ts#L48-L87)
 
 ## Limitations
 

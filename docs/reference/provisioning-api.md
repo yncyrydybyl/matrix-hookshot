@@ -14,7 +14,7 @@ Hookshot exposes a REST API for managing [connections](../architecture/connectio
 
 **Listener:** Bind to a listener with the `widgets` resource. See [listener configuration](../guides/operator/configuration.md#listeners-required).
 
-<!-- Code: src/widgets/BridgeWidgetApi.ts -->
+> **Source:** [`src/widgets/BridgeWidgetApi.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/widgets/BridgeWidgetApi.ts)
 
 ## Endpoints
 

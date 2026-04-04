@@ -83,7 +83,7 @@ export class MyServiceConnection extends BaseConnection implements IConnection {
 
 For bot command support, extend `CommandConnection` instead and add `@botCommand` decorators. See [GitHub repo connection](../integrations/github.md#bot-commands) for examples.
 
-<!-- Code: src/Connections/BaseConnection.ts, src/Connections/IConnection.ts -->
+> **Source:** [`src/Connections/BaseConnection.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/BaseConnection.ts) · [`src/Connections/IConnection.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/IConnection.ts)
 
 ## Step 2: Register the connection type
 

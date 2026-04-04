@@ -38,7 +38,7 @@ listeners:
       - webhooks             # This listener serves webhooks
 ```
 
-<!-- Code: src/ListenerService.ts:31-141 -->
+> **Source:** [`src/ListenerService.ts:31-141`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/ListenerService.ts#L31-L141)
 
 If running in Docker, verify the port is exposed and mapped correctly.
 
@@ -68,7 +68,7 @@ For GitHub, check which hooks are enabled:
 
 Or check the room state event directly. The `enableHooks` array controls which events produce messages. For example, `push` events are disabled by default for GitHub.
 
-<!-- Code: src/Connections/GithubRepo.ts:205-218 (default enabled events) -->
+> **Source:** [`src/Connections/GithubRepo.ts:205-218`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts#L205-L218)
 
 ## Check 4: Is hookshot connected to the homeserver?
 

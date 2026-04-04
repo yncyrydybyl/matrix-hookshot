@@ -48,7 +48,7 @@ Hookshot connects Matrix rooms to GitLab projects. It delivers notifications for
 | Push | `onGitLabPush` | `gitlab.push` |
 | Wiki page event | `onWikiPageEvent` | `gitlab.wiki_page` |
 
-<!-- Code: src/Bridge.ts:501-677 (handler bindings) -->
+> **Source:** [`src/Bridge.ts:501-677`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L501-L677)
 
 ## Authentication
 
@@ -86,7 +86,7 @@ You must list all GitLab instances users will connect to. The `publicUrl` is whe
 
 The `secret` is used as the "Secret token" when adding webhooks in GitLab project settings.
 
-<!-- Code: src/config/sections/Gitlab.ts -->
+> **Source:** [`src/config/sections/Gitlab.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/config/sections/Gitlab.ts)
 
 ## Setup
 
@@ -120,13 +120,13 @@ Add a webhook in GitLab: Project → Settings → Webhooks:
 | `includingLabels` | string[] | all | Only show events with these labels |
 | `excludingLabels` | string[] | none | Hide events with these labels |
 
-<!-- Code: src/Connections/GitlabRepo.ts:44-57 -->
+> **Source:** [`src/Connections/GitlabRepo.ts:44-57`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GitlabRepo.ts#L44-L57)
 
 ### Default enabled events
 
 `merge_request.open`, `merge_request.close`, `merge_request.merge`, `merge_request.reopen`, `merge_request.review`, `merge_request.review.individual`, `merge_request.ready_for_review`, `merge_request.review.comments`, `merge_request`, `tag_push`, `push`, `wiki`, `release`, `release.created`
 
-<!-- Code: src/Connections/GitlabRepo.ts:86-121 -->
+> **Source:** [`src/Connections/GitlabRepo.ts:86-121`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GitlabRepo.ts#L86-L121)
 
 ## Bot commands
 

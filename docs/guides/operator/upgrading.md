@@ -59,7 +59,7 @@ Hookshot supports **legacy state event types** (e.g., `uk.half-shot.matrix-githu
 
 New connections always use the current type. There is no automated migration from legacy to current types.
 
-<!-- Code: LegacyCanonicalEventType properties on Connection classes -->
+> **Source:** LegacyCanonicalEventType properties on Connection classes
 
 ## Breaking changes to watch for
 

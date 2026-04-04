@@ -136,7 +136,7 @@ cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 64 | head -n 1
 
 Replace `yourdomain` with your homeserver's server name.
 
-<!-- Code: registration.sample.yml -->
+> **Source:** registration.sample.yml
 
 ## Register with the homeserver
 

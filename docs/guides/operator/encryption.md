@@ -27,7 +27,7 @@ cache:
 
 Do NOT set `queue` config when encryption is enabled. Workers are incompatible with encryption.
 
-<!-- Code: docs/advanced/encryption.md -->
+> **Source:** docs/advanced/encryption.md
 
 ## Homeserver setup (Synapse)
 

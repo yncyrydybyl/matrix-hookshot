@@ -108,7 +108,7 @@ See [Event Lifecycle](event-lifecycle.md) for how events flow through connection
 | Configuration keys | 35+ |
 | Rust NAPI modules | 8 |
 
-<!-- Code: src/Connections/ (15 connection classes), src/Bridge.ts:299-1023 (handler bindings), @botCommand across codebase (66 usages) -->
+> **Source:** [`src/Connections/`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/) · [`src/Bridge.ts:299-1023`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L299-L1023)
 
 ## Technology
 

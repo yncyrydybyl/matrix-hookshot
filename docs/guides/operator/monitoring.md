@@ -103,7 +103,7 @@ readinessProbe:
     port: 9000
 ```
 
-<!-- Code: src/ListenerService.ts — /live and /ready endpoints -->
+> **Source:** [`src/ListenerService.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/ListenerService.ts)
 
 ## Log monitoring
 

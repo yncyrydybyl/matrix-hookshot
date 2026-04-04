@@ -52,7 +52,7 @@ graph LR
 
 The state event **is** the connection. When hookshot restarts, it reads all room state events and reconstructs every connection. No external database.
 
-<!-- Code: src/Connections/IConnection.ts:30-117 (interface), src/Bridge.ts:1024-1115 (startup reconstruction) -->
+> **Source:** [`src/Connections/IConnection.ts:30-117`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/IConnection.ts#L30-L117) · [`src/Bridge.ts:1024-1115`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L1024-L1115)
 
 ## Every connection has the same capabilities (in theory)
 
@@ -76,7 +76,7 @@ Not every connection implements all capabilities. Feeds have no outbound command
 
 All four paths end the same way: a state event is written to the room.
 
-<!-- Code: src/Connections/SetupConnection.ts (bot commands), src/widgets/BridgeWidgetApi.ts (API), config.yml connections section -->
+> **Source:** [`src/Connections/SetupConnection.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/SetupConnection.ts) · [`src/widgets/BridgeWidgetApi.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/widgets/BridgeWidgetApi.ts)
 
 ## How events route to connections
 
@@ -89,7 +89,7 @@ When an external event arrives (a webhook, a feed update), hookshot must find wh
 
 A GitHub webhook for `org/repo` will reach every `GitHubRepoConnection` connected to `org/repo`, regardless of which room it's in. If three rooms are connected to the same repo, all three get the notification.
 
-<!-- Code: src/Bridge.ts:315-325 (example: github.issues.opened handler binding) -->
+> **Source:** [`src/Bridge.ts:315-325`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L315-L325)
 
 ## How commands route to connections
 
@@ -102,7 +102,7 @@ When a user sends `!gh create "Bug"` in a room:
 
 If a room has both a GitHub and GitLab connection, `!gh` goes to GitHub and `!gl` goes to GitLab. Each connection type defines its own prefix.
 
-<!-- Code: src/BotCommands.ts:199-302 (handleCommand), src/Bridge.ts:1338 (onRoomMessage) -->
+> **Source:** [`src/BotCommands.ts:199-302`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/BotCommands.ts#L199-L302) · [`src/Bridge.ts:1338`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L1338)
 
 ## The pattern is the same for every service
 

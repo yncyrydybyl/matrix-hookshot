@@ -60,7 +60,7 @@ sequenceDiagram
     MS->>HS: m.room.message
 ```
 
-<!-- Code: src/Connections/GenericHook.ts:639-737 -->
+> **Source:** [`src/Connections/GenericHook.ts:639-737`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts#L639-L737)
 
 ## Supported payload formats
 
@@ -72,7 +72,7 @@ sequenceDiagram
 | `text/plain` | Passed as raw string |
 | Other | Raw body as string |
 
-<!-- Code: src/Connections/GenericHook.ts, webhook body parsing -->
+> **Source:** [`src/Connections/GenericHook.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts)
 
 ## Message formatting
 
@@ -97,13 +97,13 @@ Example payload:
 
 Resulting Matrix message: `m.notice` with the formatted text.
 
-<!-- Code: src/Connections/GenericHook.ts:601-632 -->
+> **Source:** [`src/Connections/GenericHook.ts:601-632`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts#L601-L632)
 
 ### Message size limits
 
 Messages are trimmed to fit Matrix event size constraints (65,536 - 4,096 bytes for overhead).
 
-<!-- Code: src/Connections/GenericHook.ts:692-712, MAX_EVENT_SIZE_BYTES -->
+> **Source:** [`src/Connections/GenericHook.ts:692-712`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts#L692-L712)
 
 ## Transformation functions
 
@@ -137,8 +137,8 @@ result = `Build ${data.build_number}: ${data.status}`;
 - **`data` variable** — contains the parsed webhook payload
 - **`result` variable** — set this to control output. If `null`, no message is sent.
 
-<!-- Code: src/Connections/GenericHook.ts:421-422, :548-550, :657-660 -->
-<!-- Assumption: 500ms timeout mentioned in doc/DOCUMENTATION_ARCHITECTURE.md — needs verification in code -->
+> **Source:** [`src/Connections/GenericHook.ts:421-422`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts#L421-L422)
+> ⚠️ **Assumption: 500ms timeout mentioned in doc/DOCUMENTATION_ARCHITECTURE.md — needs verification in code**
 
 ## Setup
 
@@ -154,7 +154,7 @@ generic:
   userIdPrefix: _webhooks_
 ```
 
-<!-- Code: src/config/sections/GenericHooks.ts -->
+> **Source:** [`src/config/sections/GenericHooks.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/config/sections/GenericHooks.ts)
 
 ### Create a webhook (bot command)
 
@@ -170,7 +170,7 @@ Response:
 Webhook my-alerts created. URL: https://hookshot.example.com/webhook/<hookId>
 ```
 
-<!-- Code: src/Connections/SetupConnection.ts — webhook setup command -->
+> **Source:** [`src/Connections/SetupConnection.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/SetupConnection.ts)
 
 ### Create via provisioning API
 
@@ -186,7 +186,7 @@ Content-Type: application/json
 
 Response includes the webhook URL.
 
-<!-- Code: src/Connections/GenericHook.ts:306-374 (provisionConnection) -->
+> **Source:** [`src/Connections/GenericHook.ts:306-374`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts#L306-L374)
 
 ### Manage webhooks
 
@@ -205,7 +205,7 @@ Response includes the webhook URL.
 | `hookId` | string | auto-generated | UUID for the webhook URL |
 | `expirationDate` | ISO-8601 | none | When the webhook expires |
 
-<!-- Code: src/Connections/GenericHook.ts:30-55 (GenericHookConnectionState) -->
+> **Source:** [`src/Connections/GenericHook.ts:30-55`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts#L30-L55)
 
 ## Outbound hooks
 
@@ -232,7 +232,7 @@ When anyone sends a message in the room, hookshot POSTs it to the URL.
 }
 ```
 
-<!-- Code: src/Connections/OutboundHook.ts:44-46 -->
+> **Source:** [`src/Connections/OutboundHook.ts:44-46`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/OutboundHook.ts#L44-L46)
 
 ## Example: CI notification
 

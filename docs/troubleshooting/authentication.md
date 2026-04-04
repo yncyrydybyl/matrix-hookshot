@@ -29,7 +29,7 @@ permissions:
         level: login       # minimum for OAuth
 ```
 
-<!-- Code: src/config/permissions.rs, BridgePermissionLevel in src/config/Config.ts -->
+> **Source:** [`src/config/permissions.rs`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/config/permissions.rs) · [`src/config/Config.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/config/Config.ts)
 
 ## Check 2: Is the service configured for OAuth?
 
@@ -51,7 +51,7 @@ If missing, `!github login` will fail silently or return an error.
 
 Alternative: `!github setpersonaltoken <token>` doesn't need OAuth config.
 
-<!-- Code: src/github/GithubInstance.ts:269-285 (OAuth URL generation) -->
+> **Source:** [`src/github/GithubInstance.ts:269-285`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/github/GithubInstance.ts#L269-L285)
 
 ### JIRA
 
@@ -97,7 +97,7 @@ If expired:
 - JIRA: `!hookshot jira login` (re-authenticate)
 - GitLab: `!hookshot gitlab personaltoken <instance> <new-token>`
 
-<!-- Code: src/github/AdminCommands.ts:81-113 (status check) -->
+> **Source:** [`src/github/AdminCommands.ts:81-113`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/github/AdminCommands.ts#L81-L113)
 
 ## Check 4: Is the redirect URI correct?
 
@@ -122,7 +122,7 @@ Symptoms:
 
 Fix: Users must re-authenticate (`!github login`, etc.). There is no way to recover tokens encrypted with a lost passkey.
 
-<!-- Code: src/tokens/mod.rs (Rust encryption) -->
+> **Source:** [`src/tokens/mod.rs`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/tokens/mod.rs)
 
 ## Check 6: GitHub App authentication (instance-level)
 

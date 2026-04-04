@@ -25,7 +25,7 @@ GitHub has 6 connection types:
 
 Most users only need the **Repository** connection. The rest are for advanced use cases.
 
-<!-- Code: src/Connections/GithubRepo.ts:575, GithubIssue.ts:58, GithubDiscussion.ts:45, GithubDiscussionSpace.ts:33, GithubProject.ts:29, GithubUserSpace.ts:29 -->
+> **Source:** [`src/Connections/GithubRepo.ts:575`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts#L575)
 
 ## Capabilities
 
@@ -65,7 +65,7 @@ sequenceDiagram
     MS->>HS: m.room.message (m.notice)
 ```
 
-<!-- Code: src/github/Router.ts:74-99 (signature verification), src/Bridge.ts:315-325 (handler binding) -->
+> **Source:** [`src/github/Router.ts:74-99`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/github/Router.ts#L74-L99) · [`src/Bridge.ts:315-325`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L315-L325)
 
 ## Supported events
 
@@ -99,7 +99,7 @@ sequenceDiagram
 
 Events are configured via the `enableHooks` array in the connection state. Parent events (e.g., `issue`) enable all sub-events.
 
-<!-- Code: src/Connections/GithubRepo.ts:144-218 -->
+> **Source:** [`src/Connections/GithubRepo.ts:144-218`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts#L144-L218)
 
 ## Authentication
 
@@ -130,7 +130,7 @@ Required permissions:
 
 Subscribe to webhook events: commit_comment, create, delete, discussion, discussion_comment, issue_comment, issues, project, project_card, project_column, pull_request, pull_request_review, pull_request_review_comment, push, release, repository, workflow_run.
 
-<!-- Code: src/github/GithubInstance.ts:65-71, docs/setup/github.md:31-51 -->
+> **Source:** [`src/github/GithubInstance.ts:65-71`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/github/GithubInstance.ts#L65-L71)
 <!-- External: https://docs.github.com/en/apps/creating-github-apps -->
 
 ### User OAuth (optional)
@@ -146,7 +146,7 @@ Bot:  Logged in as octocat
 
 Requires `oauth.client_id`, `oauth.client_secret`, and `oauth.redirect_uri` in config.
 
-<!-- Code: src/github/AdminCommands.ts:12-40 -->
+> **Source:** [`src/github/AdminCommands.ts:12-40`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/github/AdminCommands.ts#L12-L40)
 
 ### Personal access token (optional)
 
@@ -157,7 +157,7 @@ User: !github setpersonaltoken ghp_xxxxxxxxxxxx
 Bot:  Token stored for user octocat
 ```
 
-<!-- Code: src/github/AdminCommands.ts:43-79 -->
+> **Source:** [`src/github/AdminCommands.ts:43-79`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/github/AdminCommands.ts#L43-L79)
 
 ## Configuration
 
@@ -177,7 +177,7 @@ github:
     showIssueRoomLink: false
 ```
 
-<!-- Code: src/config/sections/GitHub.ts:1-68 -->
+> **Source:** [`src/config/sections/GitHub.ts:1-68`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/config/sections/GitHub.ts#L1-L68)
 
 ## Setup
 
@@ -221,7 +221,7 @@ connections:
 | `workflowRun.includingWorkflows` | string[] | all | Only show these workflows |
 | `workflowRun.excludingWorkflows` | string[] | none | Hide these workflows |
 
-<!-- Code: src/Connections/GithubRepo.ts:83-143 (GitHubRepoConnectionOptions), docs/usage/room_configuration/github_repo.md -->
+> **Source:** [`src/Connections/GithubRepo.ts:83-143`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts#L83-L143)
 
 ## Bot commands
 
@@ -240,7 +240,7 @@ Admin commands (in DM with bot):
 | `!github setpersonaltoken <token>` | Set personal access token |
 | `!github status` | Check authentication status |
 
-<!-- Code: src/Connections/GithubRepo.ts:922-1112, src/github/AdminCommands.ts:12-113 -->
+> **Source:** [`src/Connections/GithubRepo.ts:922-1112`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts#L922-L1112) · [`src/github/AdminCommands.ts:12-113`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/github/AdminCommands.ts#L12-L113)
 
 ## Emoji reactions
 
@@ -254,7 +254,7 @@ Matrix emoji reactions on hookshot messages trigger GitHub actions:
 | :white_check_mark: | Approve PR review |
 | :x: :no_entry_sign: | Request changes on PR review |
 
-<!-- Code: src/Connections/GithubRepo.ts reaction handler methods -->
+> **Source:** [`src/Connections/GithubRepo.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts)
 
 ## Example messages
 
@@ -286,7 +286,7 @@ Matrix event content:
 }
 ```
 
-<!-- Code: src/Connections/GithubRepo.ts:1114-1171, src/FormatUtil.ts:70-87 -->
+> **Source:** [`src/Connections/GithubRepo.ts:1114-1171`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts#L1114-L1171) · [`src/FormatUtil.ts:70-87`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/FormatUtil.ts#L70-L87)
 
 ### Pull request opened
 
@@ -294,7 +294,7 @@ Matrix event content:
 🔵 **octocat** opened a new PR [my-org/my-repo#43](https://github.com/my-org/my-repo/pull/43): "Fix Safari login bug"
 ```
 
-<!-- Code: src/Connections/GithubRepo.ts:1377-1439 -->
+> **Source:** [`src/Connections/GithubRepo.ts:1377-1439`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts#L1377-L1439)
 
 ### Push
 
@@ -302,7 +302,7 @@ Matrix event content:
 **octocat** pushed 3 commits to `refs/heads/main` for my-org/my-repo
 ```
 
-<!-- Code: src/Connections/GithubRepo.ts:1766-1787 -->
+> **Source:** [`src/Connections/GithubRepo.ts:1766-1787`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts#L1766-L1787)
 
 ## Limitations
 

@@ -39,7 +39,7 @@ for each room in joinedRooms:          // Bridge.ts:1024
 
 Processing runs with **concurrency of 2** — two rooms processed simultaneously.
 
-<!-- Code: src/Bridge.ts:1024-1115 -->
+> **Source:** [`src/Bridge.ts:1024-1115`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L1024-L1115)
 
 ### Legacy state events
 
@@ -70,7 +70,7 @@ In-process storage using Maps and LRU caches. Default when Redis is not configur
 
 **Limitation:** All data lost on restart. Feeds will re-post entries. Issue deduplication resets.
 
-<!-- Code: src/stores/MemoryStorageProvider.ts -->
+> **Source:** [`src/stores/MemoryStorageProvider.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/stores/MemoryStorageProvider.ts)
 
 ### RedisStorageProvider
 
@@ -91,7 +91,7 @@ cache:
 
 **Required for:** [Feed persistence](../integrations/feeds.md) across restarts, [encryption](../guides/operator/encryption.md).
 
-<!-- Code: src/stores/RedisStorageProvider.ts -->
+> **Source:** [`src/stores/RedisStorageProvider.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/stores/RedisStorageProvider.ts)
 
 ### Interface
 
@@ -116,7 +116,7 @@ interface IBridgeStorageProvider {
 }
 ```
 
-<!-- Code: src/stores/StorageProvider.ts:15-107 -->
+> **Source:** [`src/stores/StorageProvider.ts:15-107`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/stores/StorageProvider.ts#L15-L107)
 
 ## Message queue
 
@@ -131,7 +131,7 @@ In-process event routing using Node.js `EventEmitter` with glob-pattern subscrip
 - Request-response pattern for `pushWait` (30s default timeout)
 - No persistence — events are lost if the process crashes mid-handling
 
-<!-- Code: src/messageQueue/LocalMQ.ts -->
+> **Source:** [`src/messageQueue/LocalMQ.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/messageQueue/LocalMQ.ts)
 
 ### RedisMQ (worker mode)
 
@@ -147,7 +147,7 @@ queue:
 - Single-recipient routing: selects random consumer from tracked set
 - Three Redis connections per instance (subscribe, publish, general)
 
-<!-- Code: src/messageQueue/RedisQueue.ts -->
+> **Source:** [`src/messageQueue/RedisQueue.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/messageQueue/RedisQueue.ts)
 
 ### Factory
 
@@ -157,7 +157,7 @@ createMessageQueue(config?)
 // Config with redisUri → RedisMQ (singleton)
 ```
 
-<!-- Code: src/messageQueue/index.ts:6-16 -->
+> **Source:** [`src/messageQueue/index.ts:6-16`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/messageQueue/index.ts#L6-L16)
 
 ## Token store
 

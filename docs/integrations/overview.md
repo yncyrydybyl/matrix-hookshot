@@ -21,7 +21,7 @@ Hookshot connects Matrix rooms to external services through **connections** — 
 | [OpenProject](#openproject) | Work packages created/updated | Create, close, assign, set priority | Yes (OAuth 2.0) | Yes | `!op` | Yes | Yes |
 | [ChallengeHound](#challengehound) | Activities | None | No | No (polling) | Via `!hookshot challenghound` | Yes | Yes |
 
-<!-- Code: src/Connections/ directory — 15 connection classes across 8 services -->
+> **Source:** [`src/Connections/`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/)
 
 ## Connection types per service
 
@@ -45,7 +45,7 @@ Some services have multiple connection types for different use cases.
 | **OpenProject** | OpenProjectConnection | `org.matrix.matrix-hookshot.openproject.project` | Monitor work packages, run commands |
 | **ChallengeHound** | HoundConnection | `uk.half-shot.matrix-hookshot.challengehound.activity` | Receive activities |
 
-<!-- Code: Connection class definitions in src/Connections/*.ts -->
+> **Source:** [`src/Connections/`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/)
 
 ## GitHub
 
@@ -59,7 +59,7 @@ GitHub is the most feature-rich integration, with 6 connection types covering re
 
 **Auth:** GitHub App (required for webhooks) + optional user OAuth for per-user actions.
 
-<!-- Code: src/Connections/GithubRepo.ts:144-218 (event types), :922-1112 (commands) -->
+> **Source:** [`src/Connections/GithubRepo.ts:144-218`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GithubRepo.ts#L144-L218)
 
 ## GitLab
 
@@ -71,7 +71,7 @@ Monitors GitLab projects for merge requests, issues, pushes, tags, wiki changes,
 
 **Auth:** Personal access token or OAuth token configured per-instance.
 
-<!-- Code: src/Connections/GitlabRepo.ts, Bridge.ts:501-677 (GitLab handler bindings) -->
+> **Source:** [`src/Connections/GitlabRepo.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GitlabRepo.ts)
 
 ## JIRA
 
@@ -83,8 +83,8 @@ Monitors JIRA projects for issue creation, updates, and version events. Supports
 
 **Auth:** JIRA Cloud uses OAuth 2.0 via `auth.atlassian.com`. JIRA Server uses OAuth 1.0 with RSA-SHA1.
 
-<!-- Code: src/Connections/JiraProject.ts, Bridge.ts:808-823 (JIRA handler bindings) -->
-<!-- Note: jira-client package is unmaintained. JIRA Server reached EOL Feb 2024. -->
+> **Source:** [`src/Connections/JiraProject.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/JiraProject.ts)
+> **Note:** jira-client package is unmaintained. JIRA Server reached EOL Feb 2024.
 
 ## Generic Webhooks
 
@@ -98,7 +98,7 @@ Accepts arbitrary HTTP payloads and delivers them to Matrix rooms. Supports JSON
 
 **No service-specific auth.** Webhook URLs contain a unique UUID and can optionally be protected with secrets.
 
-<!-- Code: src/Connections/GenericHook.ts:639-737 (webhook handling), :421-422 (transformation) -->
+> **Source:** [`src/Connections/GenericHook.ts:639-737`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts#L639-L737)
 
 ## Feeds
 
@@ -110,7 +110,7 @@ Polls RSS and Atom feeds at regular intervals and posts new entries to Matrix ro
 
 **Error handling:** Optional failure notifications when feed polling fails. Last 5 poll results stored for diagnostics.
 
-<!-- Code: src/Connections/FeedConnection.ts:186-213 (templates), src/feeds/parser.rs (Rust) -->
+> **Source:** [`src/Connections/FeedConnection.ts:186-213`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/FeedConnection.ts#L186-L213) · [`src/feeds/parser.rs`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/feeds/parser.rs)
 
 ## Figma
 
@@ -120,8 +120,8 @@ Receives Figma file comment webhooks and posts them to Matrix rooms.
 
 **Auth:** Figma API token configured per-instance.
 
-<!-- Code: src/Connections/FigmaFileConnection.ts, Bridge.ts:972 (figma handler) -->
-<!-- Note: figma-js package is unmaintained (pre-release pin v1.16.1-0) -->
+> **Source:** [`src/Connections/FigmaFileConnection.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/FigmaFileConnection.ts)
+> **Note:** figma-js package is unmaintained (pre-release pin v1.16.1-0)
 
 ## OpenProject
 
@@ -131,7 +131,7 @@ Monitors OpenProject instances for work package creation and updates. Supports O
 
 **Outbound commands:** `!op create`, `!op close`, `!op priority`, `!op assign`, `!op responsible`
 
-<!-- Code: src/Connections/OpenProjectConnection.ts, Bridge.ts:1001-1012 -->
+> **Source:** [`src/Connections/OpenProjectConnection.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/OpenProjectConnection.ts)
 
 ## ChallengeHound
 
@@ -139,7 +139,7 @@ Receives activity updates from ChallengeHound challenges.
 
 **Inbound:** Activity events (polling-based, not webhook).
 
-<!-- Code: src/Connections/HoundConnection.ts, Bridge.ts:995 -->
+> **Source:** [`src/Connections/HoundConnection.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/HoundConnection.ts)
 
 ## How connections are created
 
@@ -153,7 +153,7 @@ Four ways to create a connection in a room:
 
 The `SetupConnection` handles bot commands for creating connections across all services. It supports 18+ setup commands.
 
-<!-- Code: src/Connections/SetupConnection.ts (18 @botCommand methods) -->
+> **Source:** [`src/Connections/SetupConnection.ts`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/SetupConnection.ts)
 
 ## Related
 
