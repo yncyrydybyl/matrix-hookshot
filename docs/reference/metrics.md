@@ -1,3 +1,10 @@
+---
+title: Prometheus Metrics
+description: All Prometheus metrics exposed by hookshot
+audience: [operator]
+generated_from: scripts/build-metrics-docs.ts
+---
+
 # Prometheus Metrics
 
 You can configure metrics support by adding the following to your config:
