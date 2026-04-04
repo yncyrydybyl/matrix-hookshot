@@ -1,5 +1,5 @@
 #!/bin/bash
-# Export documentation as PDF using vitepress-export-pdf.
+# Export documentation as PDF using vitevitepress-export-pdf.
 # Requires a running VitePress dev server.
 #
 # Usage:
@@ -21,13 +21,13 @@ for i in $(seq 1 30); do
 done
 
 echo "Exporting PDF..."
-npx press-export-pdf export http://localhost:4173 \
+npx vitepress-export-pdf export http://localhost:4173 \
   --outFile hookshot-docs.pdf \
   --pdfMargin "20mm" \
   --pdfFormat "A4" \
   --urlOrigin http://localhost:4173 \
   2>&1 || {
-    echo "press-export-pdf failed, trying alternative..."
+    echo "vitepress-export-pdf failed, trying alternative..."
     # Fallback: use Playwright directly
     npx playwright install chromium 2>/dev/null
     node -e "
