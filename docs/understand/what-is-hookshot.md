@@ -12,42 +12,32 @@ Hookshot is a Matrix [application service](https://spec.matrix.org/latest/applic
 
 ```mermaid
 graph LR
-    subgraph External["External Services"]
-        GH["GitHub"]
-        GL["GitLab"]
-        JI["JIRA"]
-        WH["Generic Webhooks"]
-        RSS["RSS/Atom Feeds"]
-        FG["Figma"]
-        OP["OpenProject"]
+    subgraph External
+        GH[GitHub]
+        GL[GitLab]
+        JI[JIRA]
+        WH[Webhooks]
+        RSS[Feeds]
     end
 
-    subgraph HS["Matrix Homeserver"]
-        AS["Appservice API"]
-        RM["Matrix Rooms"]
+    subgraph Hookshot
+        LIS[HTTP Listener]
+        BR[Bridge Core]
+        CONN[Connections]
     end
 
-    subgraph HK["Hookshot"]
-        LIS["HTTP Listener"]
-        BR["Bridge Core"]
-        CONN["15 Connection Types"]
+    subgraph Matrix
+        AS[Appservice API]
+        RM[Rooms]
     end
 
-    GH -->|webhooks| LIS
-    GL -->|webhooks| LIS
-    JI -->|webhooks| LIS
-    WH -->|webhooks| LIS
-    FG -->|webhooks| LIS
-    OP -->|webhooks| LIS
-    RSS -.->|polling| CONN
-
+    GH -->|webhook| LIS
+    GL -->|webhook| LIS
+    JI -->|webhook| LIS
+    WH -->|webhook| LIS
+    RSS -.->|poll| CONN
     LIS --> BR --> CONN
-    CONN <-->|events & messages| AS
-    AS <--> RM
-
-    style HK fill:#e8f5e9,stroke:#388E3C
-    style HS fill:#e3f2fd,stroke:#1976D2
-    style External fill:#fff3e0,stroke:#F57C00
+    CONN <--> AS <--> RM
 ```
 
 Hookshot registers with a Matrix homeserver (Synapse, Dendrite, Conduit) as an application service. The homeserver forwards room events to hookshot, and hookshot sends messages back through the homeserver's client-server API.

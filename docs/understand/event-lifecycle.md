@@ -126,20 +126,18 @@ A user sends a bot command in a Matrix room. Hookshot parses it, finds the right
 
 ```mermaid
 sequenceDiagram
-    participant U as User
-    participant HS as Homeserver
-    participant BR as Bridge.ts
-    participant CMD as BotCommands
-    participant CONN as Connection
-    participant EXT as External Service
+    participant User
+    participant Matrix as Homeserver
+    participant Bridge
+    participant Conn as Connection
+    participant Ext as External Service
 
-    U->>HS: Send message: "!gh create 'Bug title'"
-    HS->>BR: room.message event (appservice API)
-    BR->>CMD: Parse command prefix
-    CMD->>CONN: Dispatch to GitHubRepoConnection
-    CONN->>EXT: octokit.issues.create(...)
-    EXT-->>CONN: Issue #42 created
-    CONN->>HS: Send confirmation: "Created issue #42"
+    User->>Matrix: !gh create "Bug title"
+    Matrix->>Bridge: room.message event
+    Bridge->>Conn: Parse prefix, dispatch
+    Conn->>Ext: Create issue via API
+    Ext-->>Conn: Issue #42 created
+    Conn->>Matrix: Confirmation message
 ```
 
 > **Source:** [`src/Bridge.ts:1338`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L1338) · [`src/BotCommands.ts:199`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/BotCommands.ts#L199)

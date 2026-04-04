@@ -36,29 +36,18 @@ Two connection types:
 
 ```mermaid
 sequenceDiagram
-    participant EXT as External System
-    participant LIS as ListenerService
-    participant GH as GenericWebhooksRouter
-    participant MQ as MessageQueue
-    participant BR as Bridge.ts
-    participant HC as GenericHookConnection
-    participant MS as MatrixSender
-    participant HS as Homeserver
+    participant Ext as External System
+    participant Hook as Hookshot
+    participant Matrix as Homeserver
 
-    EXT->>LIS: POST /webhook/{hookId}
-    LIS->>GH: Route by hookId
-    GH->>MQ: emit("generic.hook", {hookId, payload})
-    MQ->>BR: deliver
-    BR->>HC: onGenericHook(payload)
-    alt Has transformation function
-        HC->>HC: Execute JS in QuickJS sandbox
-        HC->>HC: Use transformed output
-    else No transformation
-        HC->>HC: Extract text/html fields
-    end
-    HC->>MS: sendMessage(roomId, content)
-    MS->>HS: m.room.message
+    Ext->>Hook: POST /webhook/hookId
+    Hook->>Hook: Match connection by URL
+    Hook->>Hook: Transform payload (optional JS)
+    Hook->>Matrix: m.room.message
+    Note over Matrix: Message in room
 ```
+
+For a more detailed view of the inbound event pipeline, see [Event Lifecycle](../understand/event-lifecycle.md).
 
 > **Source:** [`src/Connections/GenericHook.ts:639-737`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/GenericHook.ts#L639-L737)
 

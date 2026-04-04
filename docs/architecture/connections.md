@@ -81,13 +81,12 @@ State event type prefix: `uk.half-shot.matrix-hookshot.` (except OpenProject whi
 
 ```mermaid
 stateDiagram-v2
-    [*] --> Created: Provisioning API / bot command / widget / state event
-    Created --> Active: State event written to room
+    [*] --> Created
+    Created --> Active: State event written
     Active --> Active: Config updated
-    Active --> Active: Events processed
-    Active --> Removed: DELETE API / bot command / state event cleared
-    Active --> Migrated: Room upgrade (tombstone)
-    Migrated --> Active: New room, same connection
+    Active --> Removed: Deleted
+    Active --> Migrated: Room upgrade
+    Migrated --> Active: New room
     Removed --> [*]
 ```
 

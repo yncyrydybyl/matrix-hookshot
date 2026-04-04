@@ -47,22 +47,17 @@ Most users only need the **Repository** connection. The rest are for advanced us
 ```mermaid
 sequenceDiagram
     participant GH as GitHub
-    participant R as github/Router.ts
-    participant MQ as MessageQueue
-    participant BR as Bridge.ts
-    participant RC as GitHubRepoConnection
-    participant MS as MatrixSender
-    participant HS as Homeserver
+    participant Router as Webhook Router
+    participant Bridge as Bridge
+    participant Conn as Connection
+    participant Matrix as Homeserver
 
-    GH->>R: POST /github/webhook
-    Note over R: Verify HMAC-SHA256<br/>(x-hub-signature-256)
-    R->>MQ: emit("github.issues.opened", payload)
-    MQ->>BR: deliver
-    BR->>RC: onIssueCreated(event)
-    RC->>RC: Check enableHooks
-    RC->>RC: Format message
-    RC->>MS: sendMessage(roomId, content)
-    MS->>HS: m.room.message (m.notice)
+    GH->>Router: POST /github/webhook
+    Router->>Router: Verify HMAC signature
+    Router->>Bridge: github.issues.opened
+    Bridge->>Conn: onIssueCreated()
+    Conn->>Conn: Format message
+    Conn->>Matrix: m.room.message
 ```
 
 > **Source:** [`src/github/Router.ts:74-99`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/github/Router.ts#L74-L99) · [`src/Bridge.ts:315-325`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L315-L325)
