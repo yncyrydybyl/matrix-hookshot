@@ -161,6 +161,12 @@ export default withMermaid(defineConfig({
   },
 
   mermaid: {
-    theme: 'neutral',
+    theme: 'dark',
+    themeVariables: {
+      fontSize: '16px',
+    },
+  },
+  mermaidPlugin: {
+    class: 'mermaid-diagram',
   },
 }))

@@ -253,7 +253,7 @@ encryption:
 
 Requires `cache.redisUri` to be set. The `storagePath` must persist between restarts.
 
-See [Encryption docs](../../docs/advanced/encryption.md) for full details.
+See [Encryption](encryption.md) for full details.
 
 ## Metrics (optional)
 
@@ -303,7 +303,7 @@ This checks for missing required fields and invalid values without starting the 
 
 **Operator:** [Installation](installation.md) · [Monitoring](monitoring.md) · [Encryption](encryption.md) · [Workers](workers-and-scaling.md) · [Service Bots](service-bots.md) · [Hardening](hardening.md) · [Upgrading](upgrading.md)
 
-**Integrations:** [Overview](../../integrations/overview.md) — Service-specific config · [GitHub](../../integrations/github.md#configuration) · [GitLab](../../integrations/gitlab.md#configuration) · [JIRA](../../integrations/jira.md#configuration) · [Generic Webhooks](../../integrations/generic-webhooks.md#setup)
+**Integrations:** [Overview](../../integrations/overview.md) — Service-specific config · [GitHub](../../integrations/github.md#configuration) · [GitLab](../../integrations/gitlab.md#configuration) · [JIRA](../../integrations/jira.md) · [Generic Webhooks](../../integrations/generic-webhooks.md#setup)
 
 **Reference:** [Event Types](../../reference/event-types.md) · [Bot Commands](../../reference/bot-commands.md) · [Matrix Spec Map](../../reference/matrix-spec-map.md)
 

@@ -43,6 +43,38 @@
   white-space: normal;
 }
 
+/* === Mermaid diagrams: larger and more readable === */
+
+.vp-doc .mermaid {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+/* Make mermaid SVGs use full width and scale up */
+.vp-doc .mermaid svg {
+  max-width: 100% !important;
+  min-height: 300px;
+  height: auto !important;
+  font-size: 16px !important;
+}
+
+/* Larger text in mermaid nodes */
+.mermaid .nodeLabel,
+.mermaid .edgeLabel,
+.mermaid .label,
+.mermaid text {
+  font-size: 14px !important;
+}
+
+/* Sequence diagram participants */
+.mermaid .actor {
+  font-size: 14px !important;
+}
+
+.mermaid .messageText {
+  font-size: 13px !important;
+}
+
 /* === Code blocks === */
 
 .vp-doc div[class*="language-"] {

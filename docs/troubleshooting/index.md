@@ -26,8 +26,8 @@ Before diving into specific problems, verify the basics:
 | "Not authorized" error | OAuth expired or not set up | [Authentication](authentication.md) |
 | Bot joined but no notifications | Connection not created or events disabled | [Connection Issues](connection-issues.md) |
 | Duplicate messages | Multiple connections to same resource | [Connection Issues](connection-issues.md) |
-| Encryption errors on startup | Crypto store missing or misconfigured | [Encryption](encryption.md) |
-| Slow performance | Too many rooms, Redis not configured | [Performance](performance.md) |
+| Encryption errors on startup | Crypto store missing or misconfigured | [Common Errors](common-errors.md#startup-errors) |
+| Slow performance | Too many rooms, Redis not configured | [Common Errors](common-errors.md) |
 
 ## By service
 
