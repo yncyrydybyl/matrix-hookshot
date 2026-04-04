@@ -1,7 +1,6 @@
 import { defineConfig } from 'vitepress'
-import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default withMermaid(defineConfig({
+export default defineConfig({
   title: 'Matrix Hookshot',
   description: 'Connect Matrix to the tools your team uses',
   cleanUrls: true,
@@ -160,13 +159,4 @@ export default withMermaid(defineConfig({
     },
   },
 
-  mermaid: {
-    theme: 'dark',
-    themeVariables: {
-      fontSize: '16px',
-    },
-  },
-  mermaidPlugin: {
-    class: 'mermaid-diagram',
-  },
-}))
+})
