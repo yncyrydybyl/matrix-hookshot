@@ -1,0 +1,246 @@
+#!/bin/bash
+# Generate theme comparison HTML from whatever themes were built.
+# Auto-discovers themes from docs-themes/ subdirectories.
+#
+# Usage: bash scripts/build-theme-index.sh
+
+OUTPUT_BASE="docs-themes"
+
+# Auto-discover built themes
+THEME_DIRS=$(find "$OUTPUT_BASE" -maxdepth 1 -mindepth 1 -type d | sort)
+THEME_COUNT=$(echo "$THEME_DIRS" | wc -l)
+
+echo "Found $THEME_COUNT themes"
+
+# Build JSON array of themes
+THEMES_JSON="["
+FIRST=true
+for dir in $THEME_DIRS; do
+  name=$(basename "$dir")
+  # Determine family
+  if [[ "$name" == mocha-* ]]; then family="mocha"; label="Mocha ${name#mocha-}"
+  elif [[ "$name" == frappe-* ]]; then family="frappe"; label="Frappé ${name#frappe-}"
+  elif [[ "$name" == macchiato-* ]]; then family="macchiato"; label="Macchiato ${name#macchiato-}"
+  elif [[ "$name" == default-* ]]; then family="default"; label="Default (${name#default-})"
+  else family="other"; label="$name"
+  fi
+  # Capitalize accent
+  label=$(echo "$label" | sed 's/-/ /g' | sed 's/\b\(.\)/\u\1/g')
+
+  [ "$FIRST" = true ] && FIRST=false || THEMES_JSON+=","
+  THEMES_JSON+="{\"name\":\"$name\",\"label\":\"$label\",\"family\":\"$family\"}"
+done
+THEMES_JSON+="]"
+
+cat > "$OUTPUT_BASE/index.html" << HTMLEOF
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hookshot Docs — Theme Showcase ($THEME_COUNT themes)</title>
+  <style>
+    :root {
+      --bg: #1e1e2e; --surface: #181825; --border: #313244;
+      --text: #cdd6f4; --subtext: #a6adc8; --accent: #a6e3a1;
+      --accent2: #89b4fa; --card-bg: #1e1e2e;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; background: var(--bg); color: var(--text); }
+    .container { max-width: 1800px; margin: 0 auto; padding: 2rem; }
+    header { text-align: center; padding: 3rem 1rem 2rem; }
+    h1 { font-size: 2.8rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2), #f5c2e7);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { color: var(--subtext); font-size: 1.15rem; margin-top: 0.5rem; }
+    .stats { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; }
+    .stat { text-align: center; }
+    .stat-num { font-size: 2.2rem; font-weight: 700; color: var(--accent); }
+    .stat-label { font-size: 0.85rem; color: var(--subtext); }
+
+    .controls { display: flex; justify-content: center; gap: 0.5rem; margin: 1rem 0; flex-wrap: wrap; }
+    .controls button { padding: 0.5rem 1.2rem; border: 1px solid var(--border); background: transparent;
+      color: var(--subtext); border-radius: 20px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+    .controls button:hover { color: var(--text); border-color: var(--accent2); }
+    .controls button.active { background: var(--accent2); color: var(--bg); border-color: var(--accent2); font-weight: 600; }
+
+    .tab-bar { display: flex; justify-content: center; gap: 0.5rem; margin: 1.5rem 0; }
+    .tab-bar button { padding: 0.6rem 1.5rem; border: 1px solid var(--border); background: transparent;
+      color: var(--text); border-radius: 8px; cursor: pointer; font-size: 0.95rem; transition: all 0.2s; }
+    .tab-bar button:hover { border-color: var(--accent); }
+    .tab-bar button.active { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 1.2rem; }
+    .card { border: 1px solid var(--border); border-radius: 14px; overflow: hidden;
+      background: var(--surface); transition: all 0.3s; }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); border-color: var(--accent); }
+    .card iframe { width: 100%; height: 300px; border: none; pointer-events: none; }
+    .card-info { padding: 0.8rem 1rem; display: flex; justify-content: space-between; align-items: center;
+      border-top: 1px solid var(--border); }
+    .card-info h3 { font-size: 0.95rem; font-weight: 600; }
+    .badge { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 10px;
+      background: var(--border); color: var(--subtext); margin-left: 0.5rem; }
+    .card-actions a { color: var(--accent2); text-decoration: none; font-size: 0.85rem;
+      padding: 0.3rem 0.8rem; border: 1px solid var(--border); border-radius: 8px; transition: all 0.2s; }
+    .card-actions a:hover { background: var(--accent2); color: var(--bg); }
+
+    .compare-controls { text-align: center; padding: 1rem; display: none; }
+    .compare-controls select, .compare-controls button {
+      padding: 0.5rem 1rem; font-size: 0.95rem; border-radius: 8px; margin: 0 0.3rem; }
+    .compare-controls select { border: 1px solid var(--border); background: var(--surface); color: var(--text); }
+    .compare-controls > button { border: none; background: var(--accent); color: var(--bg); cursor: pointer; font-weight: 600; }
+    .compare-view { display: none; }
+    .compare-view.active { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .compare-view iframe { width: 100%; height: 85vh; border: 1px solid var(--border); border-radius: 12px; }
+    .compare-label { text-align: center; padding: 0.5rem; font-weight: 600; color: var(--accent); }
+
+    .hidden { display: none !important; }
+    .size-controls { display: flex; justify-content: center; gap: 0.5rem; margin: 0.5rem 0; }
+    .size-controls button { padding: 0.3rem 0.8rem; font-size: 0.8rem; border: 1px solid var(--border);
+      background: transparent; color: var(--subtext); border-radius: 6px; cursor: pointer; }
+    .size-controls button.active { background: var(--border); color: var(--text); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Hookshot Docs — Theme Showcase</h1>
+      <p class="subtitle">47 documentation pages rendered in $THEME_COUNT different themes</p>
+      <div class="stats">
+        <div class="stat"><div class="stat-num">$THEME_COUNT</div><div class="stat-label">Themes</div></div>
+        <div class="stat"><div class="stat-num">47</div><div class="stat-label">Pages</div></div>
+        <div class="stat"><div class="stat-num">20</div><div class="stat-label">Syntax Themes</div></div>
+        <div class="stat"><div class="stat-num">26</div><div class="stat-label">Catppuccin Variants</div></div>
+      </div>
+    </header>
+
+    <div class="tab-bar">
+      <button class="active" onclick="showView('gallery',this)">Gallery</button>
+      <button onclick="showView('compare',this)">Side-by-Side</button>
+    </div>
+
+    <div class="controls" id="family-filter"></div>
+
+    <div class="size-controls" id="size-controls">
+      Preview: <button onclick="setSize(250,this)">S</button>
+      <button class="active" onclick="setSize(300,this)">M</button>
+      <button onclick="setSize(450,this)">L</button>
+      <button onclick="setSize(600,this)">XL</button>
+    </div>
+
+    <div class="grid" id="gallery"></div>
+
+    <div class="compare-controls" id="compare-controls">
+      <select id="left-theme"></select>
+      <span style="color:var(--subtext)">vs</span>
+      <select id="right-theme"></select>
+      <select id="compare-page">
+        <option value="index.html">Home</option>
+        <option value="understand/event-lifecycle">Event Lifecycle</option>
+        <option value="integrations/overview">Integrations</option>
+        <option value="integrations/github">GitHub</option>
+        <option value="architecture/connections">Connections</option>
+        <option value="guides/operator/configuration">Configuration</option>
+        <option value="troubleshooting/webhooks-not-arriving">Troubleshooting</option>
+        <option value="get-started/quickstart">Quickstart</option>
+        <option value="reference/bot-commands">Bot Commands</option>
+        <option value="project/ecosystem">Ecosystem</option>
+        <option value="project/limitations">Limitations</option>
+      </select>
+      <button onclick="loadComparison()">Compare</button>
+    </div>
+
+    <div class="compare-view" id="compare-view">
+      <div><div class="compare-label" id="left-label"></div><iframe id="left-frame"></iframe></div>
+      <div><div class="compare-label" id="right-label"></div><iframe id="right-frame"></iframe></div>
+    </div>
+  </div>
+
+  <script>
+    const themes = $THEMES_JSON;
+
+    const previewPages = [
+      'integrations/github', 'understand/event-lifecycle', 'architecture/connections',
+      'get-started/quickstart', 'integrations/overview', 'guides/operator/configuration',
+      'project/ecosystem', 'troubleshooting/webhooks-not-arriving', 'reference/bot-commands',
+      'integrations/generic-webhooks'
+    ];
+    const pp = i => previewPages[i % previewPages.length];
+
+    // Discover families
+    const families = [...new Set(themes.map(t => t.family))];
+
+    // Build family filter
+    const filterBar = document.getElementById('family-filter');
+    filterBar.innerHTML = '<button class="active" onclick="filterThemes(\'all\',this)">All (' + themes.length + ')</button>';
+    families.forEach(f => {
+      const count = themes.filter(t => t.family === f).length;
+      filterBar.innerHTML += '<button onclick="filterThemes(\\''+f+'\\',this)">' +
+        f.charAt(0).toUpperCase() + f.slice(1) + ' (' + count + ')</button>';
+    });
+
+    // Build gallery
+    const gallery = document.getElementById('gallery');
+    themes.forEach((t, i) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.dataset.family = t.family;
+      card.innerHTML =
+        '<iframe src="' + t.name + '/' + pp(i) + '" loading="lazy"></iframe>' +
+        '<div class="card-info"><div><h3>' + t.label +
+        '<span class="badge">' + t.family + '</span></h3></div>' +
+        '<div class="card-actions"><a href="' + t.name + '/index.html" target="_blank">Browse ↗</a></div></div>';
+      gallery.appendChild(card);
+    });
+
+    // Build selects
+    const leftSel = document.getElementById('left-theme');
+    const rightSel = document.getElementById('right-theme');
+    themes.forEach((t, i) => {
+      const opt = '<option value="' + t.name + '">' + t.label + '</option>';
+      leftSel.innerHTML += opt;
+      rightSel.innerHTML += opt;
+    });
+    leftSel.selectedIndex = 0;
+    rightSel.selectedIndex = Math.min(2, themes.length - 1);
+
+    function showView(view, btn) {
+      document.querySelectorAll('.tab-bar button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      gallery.style.display = view === 'gallery' ? 'grid' : 'none';
+      document.getElementById('family-filter').style.display = view === 'gallery' ? 'flex' : 'none';
+      document.getElementById('size-controls').style.display = view === 'gallery' ? 'flex' : 'none';
+      document.getElementById('compare-view').className = view === 'compare' ? 'compare-view active' : 'compare-view';
+      document.getElementById('compare-controls').style.display = view === 'compare' ? 'block' : 'none';
+      if (view === 'compare') loadComparison();
+    }
+
+    function filterThemes(family, btn) {
+      document.querySelectorAll('#family-filter button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.card').forEach(c => {
+        c.classList.toggle('hidden', family !== 'all' && c.dataset.family !== family);
+      });
+    }
+
+    function setSize(h, btn) {
+      document.querySelectorAll('.size-controls button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.card iframe').forEach(f => f.style.height = h + 'px');
+    }
+
+    function loadComparison() {
+      const l = leftSel.value, r = rightSel.value;
+      const page = document.getElementById('compare-page').value;
+      document.getElementById('left-frame').src = l + '/' + page;
+      document.getElementById('right-frame').src = r + '/' + page;
+      document.getElementById('left-label').textContent = leftSel.options[leftSel.selectedIndex].text;
+      document.getElementById('right-label').textContent = rightSel.options[rightSel.selectedIndex].text;
+    }
+  </script>
+</body>
+</html>
+HTMLEOF
+
+echo "✅ Theme comparison: $OUTPUT_BASE/index.html ($THEME_COUNT themes)"
+echo "   Serve: npx serve $OUTPUT_BASE"
