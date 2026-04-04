@@ -12,35 +12,36 @@ Hookshot sits at the intersection of two trust domains: Matrix and external serv
 
 ```mermaid
 graph TB
-    subgraph Matrix["Matrix Trust Domain"]
-        HS["Homeserver<br/>(Synapse/Dendrite)"]
-        AS["Appservice Registration<br/>(hs_token, as_token)"]
+    subgraph Matrix
+        HS[Homeserver]
+        AS[Appservice Registration]
     end
 
-    subgraph Hookshot["Hookshot Process"]
-        CRED["Token Store<br/>(encrypted PEM)"]
-        PERM["Permission System<br/>(Rust NAPI)"]
-        SAND["QuickJS Sandbox<br/>(transformation functions)"]
+    subgraph Hookshot
+        CRED[Token Store]
+        PERM[Permission System]
+        SAND[QuickJS Sandbox]
     end
 
-    subgraph External["External Service Trust Domains"]
-        GH["GitHub<br/>(App private key, user OAuth tokens)"]
-        GL["GitLab<br/>(access tokens)"]
-        JI["JIRA<br/>(OAuth tokens)"]
-        OP["OpenProject<br/>(OAuth tokens)"]
+    subgraph External
+        GH[GitHub]
+        GL[GitLab]
+        JI[JIRA]
+        OP[OpenProject]
     end
 
-    HS <-->|appservice protocol<br/>(hs_token/as_token)| AS
-    AS <--> Hookshot
-    CRED -->|installation tokens| GH
-    CRED -->|bearer tokens| GL
+    HS <-->|hs_token / as_token| AS
+    AS <--> CRED
+    CRED -->|App tokens| GH
+    CRED -->|Bearer tokens| GL
     CRED -->|OAuth tokens| JI
     CRED -->|OAuth tokens| OP
-
-    style Matrix fill:#e3f2fd,stroke:#1976D2
-    style Hookshot fill:#e8f5e9,stroke:#388E3C
-    style External fill:#fff3e0,stroke:#F57C00
 ```
+
+**Trust domains:**
+- **Matrix** (blue): Homeserver + appservice registration. Authenticated via `hs_token`/`as_token`.
+- **Hookshot** (green): Token store (encrypted PEM), permission system (Rust NAPI), QuickJS sandbox.
+- **External** (orange): Each service has its own credentials stored in hookshot's encrypted token store.
 
 ## Matrix side: Appservice authentication
 
