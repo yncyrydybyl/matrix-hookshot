@@ -14,32 +14,40 @@ Understanding these two flows explains most of hookshot's behavior.
 
 An external event (GitHub PR opened, GitLab MR merged, JIRA ticket created) becomes a Matrix message through this pipeline:
 
+**Phase 1: Webhook reception and verification**
+
 ```mermaid
 sequenceDiagram
     participant EXT as External Service
-    participant LIS as ListenerService
-    participant WH as Webhooks.ts<br/>(Express router)
-    participant SVC as Service Router<br/>(e.g. GitHubWebhooksRouter)
-    participant MQ as MessageQueue
-    participant BR as Bridge.ts
-    participant CM as ConnectionManager
-    participant CONN as Connection
-    participant MS as MatrixSender
-    participant HS as Homeserver
+    participant HTTP as HTTP Listener
+    participant Router as Service Router
+    participant MQ as Message Queue
 
-    EXT->>LIS: POST /{service}/webhook
-    LIS->>WH: Route by path prefix
-    WH->>SVC: Delegate to service router
-    SVC->>SVC: Verify signature/secret
-    SVC->>MQ: emit("{service}.{event}.{action}", payload)
-    MQ->>BR: Deliver to subscriber
-    BR->>CM: Find connections for this event
-    CM-->>BR: [matching Connection instances]
-    BR->>CONN: Call handler (e.g. onIssueCreated)
-    CONN->>CONN: Check if event type is enabled
-    CONN->>CONN: Format message (emoji, markdown, metadata)
-    CONN->>MS: sendMatrixMessage(roomId, content)
-    MS->>HS: PUT /_matrix/client/v3/rooms/{roomId}/send/m.room.message
+    EXT->>HTTP: POST /github/webhook
+    HTTP->>Router: Route by path
+    Router->>Router: Verify HMAC signature
+    Router->>MQ: Publish event
+    Note over MQ: github.issues.opened
+```
+
+**Phase 2: Event dispatch and delivery**
+
+```mermaid
+sequenceDiagram
+    participant MQ as Message Queue
+    participant Bridge as Bridge.ts
+    participant CM as ConnectionManager
+    participant Conn as Connection
+    participant Matrix as Matrix Homeserver
+
+    MQ->>Bridge: Deliver event
+    Bridge->>CM: Find matching connections
+    CM-->>Bridge: GitHubRepoConnection[]
+    Bridge->>Conn: onIssueCreated(event)
+    Conn->>Conn: Check enableHooks
+    Conn->>Conn: Format message
+    Conn->>Matrix: Send m.room.message
+    Note over Matrix: Message appears in room
 ```
 
 <!-- Code: src/Webhooks.ts:17-166, src/Bridge.ts:299-1023, src/MatrixSender.ts:53-91 -->

@@ -81,6 +81,106 @@
   max-width: 100%;
 }
 
+/* === Print styles (#22) === */
+
+@media print {
+  /* Hide navigation elements */
+  .VPNav,
+  .VPSidebar,
+  .aside,
+  .edit-link,
+  .VPFooter,
+  .vp-doc .header-anchor,
+  .print-hide {
+    display: none !important;
+  }
+
+  /* Full width content */
+  .VPDoc .content-container {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 1cm !important;
+  }
+
+  .VPDoc.has-sidebar .content {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .VPContent {
+    padding-top: 0 !important;
+  }
+
+  /* Typography for print */
+  .vp-doc {
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+    color: #000 !important;
+  }
+
+  .vp-doc h1 { font-size: 22pt !important; page-break-after: avoid; }
+  .vp-doc h2 { font-size: 16pt !important; page-break-after: avoid; }
+  .vp-doc h3 { font-size: 13pt !important; page-break-after: avoid; }
+
+  /* Tables */
+  .vp-doc table {
+    font-size: 9pt !important;
+    page-break-inside: avoid;
+  }
+
+  /* Code blocks */
+  .vp-doc div[class*="language-"] {
+    page-break-inside: avoid;
+    border: 1px solid #ccc !important;
+    background: #f8f8f8 !important;
+  }
+
+  .vp-doc code {
+    color: #000 !important;
+    background: #f0f0f0 !important;
+  }
+
+  /* Show link URLs in print */
+  .vp-doc a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #666;
+    word-break: break-all;
+  }
+
+  /* Don't show internal link URLs */
+  .vp-doc a[href^="/"]::after,
+  .vp-doc a[href^=".."]::after,
+  .vp-doc a[href^="#"]::after {
+    content: none;
+  }
+
+  /* Mermaid diagrams */
+  .mermaid {
+    page-break-inside: avoid;
+  }
+}
+
+/* Print button (shown on screen, hidden in print) */
+.print-page-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--vp-c-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--vp-c-text-2);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.print-page-btn:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
 /* === Home page === */
 
 .VPHome .VPHero {
