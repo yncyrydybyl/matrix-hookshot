@@ -32,3 +32,4 @@ devenv.local.nix
 # direnv
 .direnvdocs/.vitepress/dist/
 docs/.vitepress/cache/
+docs/.vitepress/dist/
