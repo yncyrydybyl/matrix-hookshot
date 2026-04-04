@@ -4,42 +4,42 @@ title: Matrix Hookshot
 
 # Matrix Hookshot
 
-Connect Matrix rooms to the tools your team uses — GitHub, GitLab, JIRA, webhooks, RSS feeds, Figma, OpenProject. One bridge for everything.
+Welcome! Hookshot connects your Matrix rooms to the services your team already uses — GitHub, GitLab, JIRA, webhooks, RSS feeds, Figma, and OpenProject. One bridge, one deployment, everything connected.
 
-<div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1.5rem 0;">
-  <a href="/get-started/quickstart" style="padding: 0.6rem 1.2rem; background: var(--vp-c-brand-1); color: var(--vp-c-bg); border-radius: 8px; text-decoration: none; font-weight: 600;">Quickstart (5 min)</a>
-  <a href="/understand/what-is-hookshot" style="padding: 0.6rem 1.2rem; border: 1px solid var(--vp-c-border); border-radius: 8px; text-decoration: none;">What is Hookshot?</a>
-  <a href="/integrations/overview" style="padding: 0.6rem 1.2rem; border: 1px solid var(--vp-c-border); border-radius: 8px; text-decoration: none;">All Integrations</a>
-</div>
+Whether you're an operator deploying hookshot, a developer building on its APIs, or a user setting up notifications in your Matrix room — you'll find what you need here.
 
-## Documentation
+## Where to start
 
-| Section | Pages | Description |
-|---|---|---|
-| [**Get Started**](/get-started/quickstart) | [Quickstart](/get-started/quickstart) · [Evaluate](/get-started/evaluate) · [First Webhook](/get-started/first-webhook) · [First GitHub](/get-started/first-github-notification) | Try hookshot in 5 minutes |
-| [**Understand**](/understand/what-is-hookshot) | [What is Hookshot](/understand/what-is-hookshot) · [Event Lifecycle](/understand/event-lifecycle) · [Integration Model](/understand/integration-model) · [Trust & Boundaries](/understand/trust-and-boundaries) · [Glossary](/understand/glossary) | Mental model — read first |
-| [**Integrations**](/integrations/overview) | [Overview](/integrations/overview) · [GitHub](/integrations/github) · [GitLab](/integrations/gitlab) · [JIRA](/integrations/jira) · [Webhooks](/integrations/generic-webhooks) · [Feeds](/integrations/feeds) · [Figma](/integrations/figma) · [OpenProject](/integrations/openproject) | Per-service guides |
-| [**Operator Guides**](/guides/operator/installation) | [Install](/guides/operator/installation) · [Config](/guides/operator/configuration) · [Monitoring](/guides/operator/monitoring) · [Encryption](/guides/operator/encryption) · [Workers](/guides/operator/workers-and-scaling) · [Hardening](/guides/operator/hardening) | Deploy and maintain |
-| [**Architecture**](/architecture/connections) | [Connections](/architecture/connections) · [State & Storage](/architecture/state-and-storage) · [Components](/architecture/component-model) · [Extensibility](/architecture/extensibility) · [Failure](/architecture/failure-and-recovery) | How it works inside |
-| [**Reference**](/reference/bot-commands) | [Bot Commands](/reference/bot-commands) · [Event Types](/reference/event-types) · [Provisioning API](/reference/provisioning-api) · [Metrics](/reference/metrics) · [Matrix Spec Map](/reference/matrix-spec-map) | Lookup tables |
-| [**Troubleshooting**](/troubleshooting/) | [Webhooks](/troubleshooting/webhooks-not-arriving) · [Auth](/troubleshooting/authentication) · [Connections](/troubleshooting/connection-issues) · [Common Errors](/troubleshooting/common-errors) | Fix problems |
-| [**Project**](/project/ecosystem) | [Ecosystem](/project/ecosystem) · [Roadmap](/project/roadmap) · [Limitations](/project/limitations) | Status and plans |
-
-## Highlights
-
-| | |
+| I want to... | Go here |
 |---|---|
-| **8 integrations** | GitHub, GitLab, JIRA, webhooks, RSS/Atom, Figma, OpenProject, ChallengeHound |
-| **No database** | Config stored as Matrix room state events |
-| **Bidirectional** | Receive notifications, send commands, map emoji reactions |
-| **Programmable** | JavaScript transformation functions in a sandboxed runtime |
-| **Production ready** | Prometheus, Sentry, Redis, workers, E2EE, health probes |
-| **Fine-grained permissions** | Per-user, per-service, per-domain access control |
+| Try it in 5 minutes | [Quickstart](./get-started/quickstart.md) |
+| Understand what hookshot does | [What is Hookshot?](./understand/what-is-hookshot.md) |
+| See which services are supported | [Integration Overview](./integrations/overview.md) |
+| Decide if hookshot fits my needs | [Evaluate](./get-started/evaluate.md) |
+| Deploy to production | [Installation](./guides/operator/installation.md) |
+| Fix something that's broken | [Troubleshooting](./troubleshooting/index.md) |
+| Connect GitHub to a room | [GitHub Integration](./integrations/github.md) |
+| Set up a generic webhook | [First Webhook Tutorial](./get-started/first-webhook.md) |
+| Understand the architecture | [Connections](./architecture/connections.md) |
+| Add a new integration | [Extensibility Guide](./architecture/extensibility.md) |
 
-## Quick links
+## All sections
 
-- **New here?** → [Quickstart](/get-started/quickstart) or [Evaluate](/get-started/evaluate)
-- **Setting up GitHub?** → [GitHub Integration](/integrations/github)
-- **Deploying to production?** → [Installation](/guides/operator/installation) → [Configuration](/guides/operator/configuration)
-- **Something broken?** → [Troubleshooting](/troubleshooting/)
-- **Contributing?** → [Architecture](/architecture/connections) → [Extensibility](/architecture/extensibility)
+| Section | What's inside |
+|---|---|
+| [Get Started](./get-started/quickstart.md) | Quickstart, tutorials, evaluation guide |
+| [Understand](./understand/what-is-hookshot.md) | How hookshot works — event lifecycle, integration model, trust boundaries, glossary |
+| [Integrations](./integrations/overview.md) | GitHub, GitLab, JIRA, webhooks, feeds, Figma, OpenProject, ChallengeHound |
+| [Operator Guides](./guides/operator/installation.md) | Install, configure, monitor, encrypt, scale, harden |
+| [Architecture](./architecture/connections.md) | Connections, state & storage, components, extensibility, failure recovery |
+| [Reference](./reference/bot-commands.md) | Bot commands, event types, provisioning API, metrics, Matrix spec map |
+| [Troubleshooting](./troubleshooting/index.md) | Webhooks not arriving, auth issues, connection problems, common errors |
+| [Project](./project/ecosystem.md) | Ecosystem, roadmap, known limitations |
+
+## At a glance
+
+Hookshot bridges **8 services** through **15 connection types** with **60+ bot commands**. It stores configuration as Matrix room state events — no database needed. Events flow bidirectionally: receive notifications from external services, send commands back from Matrix.
+
+It's been in production since 2021, has 60+ releases, and is deployed via Docker, Helm, Ansible, NixOS, and the Element Server Suite.
+
+[Read more about what hookshot is](./understand/what-is-hookshot.md) or [jump straight to the quickstart](./get-started/quickstart.md).

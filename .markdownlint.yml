@@ -48,3 +48,9 @@ MD058: false
 
 # Bare URLs - disabled (we use them in reference tables)
 MD034: false
+
+# Blank line inside blockquote - disabled (consecutive source references)
+MD028: false
+
+# Emphasis as heading - disabled (bold phase labels before diagrams)
+MD036: false

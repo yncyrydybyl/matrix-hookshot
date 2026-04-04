@@ -36,9 +36,7 @@ Supports both **JIRA Cloud** (Atlassian-hosted) and **JIRA Server/Data Center** 
 
 Events can be filtered per-connection via the `events` array in the connection state.
 
-> **Source:** [`src/Connections/JiraProject.ts:37-57`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/JiraProject.ts#L37-L57)
-
-> **Source:** [`src/Bridge.ts:808-823`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L808-L823)
+> **Source:** [`src/Connections/JiraProject.ts:37-57`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Connections/JiraProject.ts#L37-L57) · [`src/Bridge.ts:808-823`](https://github.com/matrix-org/matrix-hookshot/blob/main/src/Bridge.ts#L808-L823)
 
 ## Authentication
 

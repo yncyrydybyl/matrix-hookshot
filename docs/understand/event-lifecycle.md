@@ -14,7 +14,7 @@ Understanding these two flows explains most of hookshot's behavior.
 
 An external event (GitHub PR opened, GitLab MR merged, JIRA ticket created) becomes a Matrix message through this pipeline:
 
-**Phase 1: Webhook reception and verification**
+### Phase 1: Webhook reception and verification
 
 ```mermaid
 sequenceDiagram
@@ -30,7 +30,7 @@ sequenceDiagram
     Note over MQ: github.issues.opened
 ```
 
-**Phase 2: Event dispatch and delivery**
+### Phase 2: Event dispatch and delivery
 
 ```mermaid
 sequenceDiagram
