@@ -3,7 +3,9 @@
 <section class="notice">
 Support for encryption is considered stable, but the underlying specification changes are not yet.
 
-Hookshot supports end-to-bridge encryption via [MSC3202](https://github.com/matrix-org/matrix-spec-proposals/pull/3202), and [MSC4203](https://github.com/matrix-org/matrix-spec-proposals/pull/4203). Hookshot needs to be configured against a a homeserver that supports these features, such as [Synapse](#running-with-synapse).
+Hookshot supports end-to-bridge encryption via [MSC3202](https://github.com/matrix-org/matrix-spec-proposals/pull/3202), and [MSC4203](https://github.com/matrix-org/matrix-spec-proposals/pull/4203). Hookshot needs to be configured against a homeserver that supports these features, such as [Synapse](#running-with-synapse).
+
+When using [Matrix Authentication Service (MAS)](https://github.com/element-hq/matrix-authentication-service), encryption requires [MSC4190](https://github.com/matrix-org/matrix-spec-proposals/pull/4190) for device management, since MAS does not support the legacy `m.login.application_service` login type. See [Running with MAS](#running-with-mas) below.
 
 Please check with your homeserver implementation before reporting bugs against matrix-hookshot.
 
@@ -33,3 +35,22 @@ experimental_features:
   msc3202_transaction_extensions: true
   msc2409_to_device_messages_enabled: true
 ```
+
+## Running with MAS
+
+When your homeserver uses [Matrix Authentication Service (MAS)](https://github.com/element-hq/matrix-authentication-service), the legacy `m.login.application_service` login type is not available. Hookshot uses [MSC4190](https://github.com/matrix-org/matrix-spec-proposals/pull/4190) to manage devices without going through `/login`, bypassing MAS entirely.
+
+**Requirements:**
+
+- Synapse 1.121+ (MSC4190 support)
+- `matrix-bot-sdk` 0.8.0-element.3+ (included in this version of Hookshot)
+
+**Setup:**
+
+Add the following to your appservice registration file:
+
+```yaml
+io.element.msc4190: true
+```
+
+This tells Synapse to create devices on the fly when Hookshot calls `PUT /_matrix/client/v3/devices/{deviceId}` via the appservice API, without requiring an `m.login.application_service` login.
