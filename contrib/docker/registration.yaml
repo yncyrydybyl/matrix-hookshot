@@ -25,4 +25,9 @@ rate_limited: false
 # If enabling encryption
 de.sorunome.msc2409.push_ephemeral: true
 push_ephemeral: true
+receive_ephemeral: true
 org.matrix.msc3202: true
+
+# If using MAS (Matrix Authentication Service), enable MSC4190
+# for device management without m.login.application_service
+io.element.msc4190: true
