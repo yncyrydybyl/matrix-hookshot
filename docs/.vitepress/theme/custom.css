@@ -1,0 +1,206 @@
+/* === Layout: wider content area === */
+
+/* Hide the right "On this page" sidebar to reclaim space for content */
+.VPDoc .aside {
+  display: none !important;
+}
+
+/* With aside hidden, content can use the full space between left sidebar and right edge */
+.VPDoc .content-container {
+  max-width: 100% !important;
+}
+
+.VPDoc.has-sidebar .content {
+  max-width: 100% !important;
+  padding-right: 2rem;
+}
+
+/* === Tables: responsive and readable === */
+
+/* Wrap tables in a scrollable container */
+.vp-doc table {
+  width: 100%;
+  display: table;
+  overflow-x: auto;
+}
+
+/* Ensure table wrapper scrolls horizontally on narrow screens */
+.vp-doc .table-wrapper,
+.vp-doc div:has(> table) {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent cells from getting too narrow */
+.vp-doc th,
+.vp-doc td {
+  white-space: nowrap;
+}
+
+/* But allow long text cells to wrap */
+.vp-doc td:first-child,
+.vp-doc td:last-child {
+  white-space: normal;
+}
+
+/* === Mermaid diagrams: larger and more readable === */
+
+.vp-doc .mermaid {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+/* Make mermaid SVGs use full width and scale up */
+.vp-doc .mermaid svg {
+  max-width: 100% !important;
+  min-height: 300px;
+  height: auto !important;
+  font-size: 16px !important;
+}
+
+/* Larger text in mermaid nodes */
+.mermaid .nodeLabel,
+.mermaid .edgeLabel,
+.mermaid .label,
+.mermaid text {
+  font-size: 14px !important;
+}
+
+/* Sequence diagram participants */
+.mermaid .actor {
+  font-size: 14px !important;
+}
+
+.mermaid .messageText {
+  font-size: 13px !important;
+}
+
+/* === Code blocks === */
+
+.vp-doc div[class*="language-"] {
+  max-width: 100%;
+}
+
+/* === Print styles (#22) === */
+
+@media print {
+  /* Hide navigation elements */
+  .VPNav,
+  .VPSidebar,
+  .aside,
+  .edit-link,
+  .VPFooter,
+  .vp-doc .header-anchor,
+  .print-hide {
+    display: none !important;
+  }
+
+  /* Full width content */
+  .VPDoc .content-container {
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 1cm !important;
+  }
+
+  .VPDoc.has-sidebar .content {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .VPContent {
+    padding-top: 0 !important;
+  }
+
+  /* Typography for print */
+  .vp-doc {
+    font-size: 11pt !important;
+    line-height: 1.5 !important;
+    color: #000 !important;
+  }
+
+  .vp-doc h1 { font-size: 22pt !important; page-break-after: avoid; }
+  .vp-doc h2 { font-size: 16pt !important; page-break-after: avoid; }
+  .vp-doc h3 { font-size: 13pt !important; page-break-after: avoid; }
+
+  /* Tables */
+  .vp-doc table {
+    font-size: 9pt !important;
+    page-break-inside: avoid;
+  }
+
+  /* Code blocks */
+  .vp-doc div[class*="language-"] {
+    page-break-inside: avoid;
+    border: 1px solid #ccc !important;
+    background: #f8f8f8 !important;
+  }
+
+  .vp-doc code {
+    color: #000 !important;
+    background: #f0f0f0 !important;
+  }
+
+  /* Show link URLs in print */
+  .vp-doc a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 8pt;
+    color: #666;
+    word-break: break-all;
+  }
+
+  /* Don't show internal link URLs */
+  .vp-doc a[href^="/"]::after,
+  .vp-doc a[href^=".."]::after,
+  .vp-doc a[href^="#"]::after {
+    content: none;
+  }
+
+  /* Mermaid diagrams */
+  .mermaid {
+    page-break-inside: avoid;
+  }
+}
+
+/* Print button (shown on screen, hidden in print) */
+.print-page-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.8rem;
+  border: 1px solid var(--vp-c-border);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--vp-c-text-2);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.print-page-btn:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+/* === Home page === */
+
+.VPHome .VPHero {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.VPHome .VPFeatures {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* === Responsive: show aside on very wide screens === */
+
+@media (min-width: 1600px) {
+  .VPDoc .aside {
+    display: block !important;
+  }
+
+  .VPDoc.has-sidebar .content {
+    padding-right: 1rem;
+  }
+}
