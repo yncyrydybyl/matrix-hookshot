@@ -1,0 +1,56 @@
+# Markdownlint configuration for hookshot documentation
+# See https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+
+# Line length - disabled (docs have tables and long links)
+MD013: false
+
+# Inline HTML - allowed (callouts, badges, embedded content)
+MD033: false
+
+# First line heading - disabled (frontmatter comes first)
+MD041: false
+
+# Multiple H1 headings - disabled (frontmatter title + page H1)
+MD025: false
+
+# Blanks around lists - disabled (too strict for our doc style)
+MD032: false
+
+# Fenced code language - disabled (some blocks are generic output)
+MD040: false
+
+# Ordered list prefix - disabled (mixed styles across old and new docs)
+MD029: false
+
+# Heading increment - disabled (old docs skip levels)
+MD001: false
+
+# Duplicate headings - disabled (old docs reuse "Example script" headings)
+MD024: false
+
+# Spaces in code spans - disabled (old docs have trailing spaces in backticks)
+MD038: false
+
+# Trailing punctuation in headings - disabled (old docs use periods)
+MD026: false
+
+# Dollar signs in commands - disabled (old docs use $ prefix)
+MD014: false
+
+# Blanks around headings - disabled (too strict with tables/lists after headings)
+MD022: false
+
+# Blanks around fences - disabled (tables followed by code blocks)
+MD031: false
+
+# Blanks around tables - disabled (tables in tight sections)
+MD058: false
+
+# Bare URLs - disabled (we use them in reference tables)
+MD034: false
+
+# Blank line inside blockquote - disabled (consecutive source references)
+MD028: false
+
+# Emphasis as heading - disabled (bold phase labels before diagrams)
+MD036: false

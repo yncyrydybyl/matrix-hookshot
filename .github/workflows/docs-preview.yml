@@ -1,0 +1,64 @@
+name: Docs Preview (VitePress)
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'scripts/build-*-docs.ts'
+  pull_request:
+    paths:
+      - 'docs/**'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: docs-deploy
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+
+      - name: Install dependencies
+        run: yarn --ignore-scripts
+
+      - name: Determine deploy path
+        id: path
+        run: |
+          BRANCH="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME}}"
+          SAFE_BRANCH=$(echo "$BRANCH" | sed 's|/|-|g')
+          if [ "$BRANCH" = "main" ]; then
+            echo "base=/" >> "$GITHUB_OUTPUT"
+            echo "subdir=" >> "$GITHUB_OUTPUT"
+          else
+            echo "base=/matrix-hookshot/${SAFE_BRANCH}/" >> "$GITHUB_OUTPUT"
+            echo "subdir=${SAFE_BRANCH}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Set VitePress base
+        run: |
+          BASE="${{ steps.path.outputs.base }}"
+          if [ "$BASE" != "/" ]; then
+            sed -i "s|cleanUrls: true,|cleanUrls: true,\n  base: '${BASE}',|" docs/.vitepress/config.mts
+          fi
+
+      - name: Build VitePress
+        run: npx vitepress build docs
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs/.vitepress/dist
+          destination_dir: ${{ steps.path.outputs.subdir }}
+          keep_files: true
